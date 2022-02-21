@@ -1,4 +1,4 @@
-var numjs = require("numjs");
+var nj = require("numjs");
 
 class Linear {
 	constructor(inDim, outDim, bias=true) {
@@ -17,3 +17,6 @@ class Linear {
 		return x;
 	}
 }
+
+
+module.exports = Linear;
