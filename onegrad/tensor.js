@@ -1,6 +1,6 @@
 "use strict"
 var nj = require("numjs");
-//var MatMul = require("./ops.js");
+var ops = require("./ops.js");
 
 
 var Tensor = function Tensor() {
@@ -19,27 +19,39 @@ Tensor.prototype.tolist = function() {
 }
 
 Tensor.prototype.dot = function(a) {
+	var op = new ops.MatMul()
+	return op.forward(this.selection, a.selection);
 	return nj.dot(this.selection, a.selection);
 }
 
 Tensor.prototype.add = function(a) {
-	return nj.add(this.selection, a.selection)
+	var op = new ops.Add()
+	return op.forward(this.selection, a.selection);
+	return nj.dot(this.selection, a.selection);
 }
 
 Tensor.prototype.sub = function(a) {
-	return nj.subtract(this.selection, a.selection)
+	var op = new ops.Sub()
+	return op.forward(this.selection, a.selection);
+	return nj.dot(this.selection, a.selection);
 }
 
 Tensor.prototype.max = function() {
-	return nj.max(this.selection)
+	var op = new ops.Max()
+	return op.forward(this.selection);
+	return nj.dot(this.selection, a.selection);
 }
 
 Tensor.prototype.min = function() {
-	return nj.min(this.selection)
+	var op = new ops.Min()
+	return op.forward(this.selection);
+	return nj.dot(this.selection, a.selection);
 }
 
 Tensor.prototype.sum = function() {
-	return nj.sum(this.selection)
+	var op = new ops.Sum()
+	return op.forward(this.selection);
+	return nj.dot(this.selection, a.selection);
 }
 
 /*Tensor.prototype.backward = function(loss) {
