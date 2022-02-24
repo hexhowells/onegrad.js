@@ -18,40 +18,38 @@ Tensor.prototype.tolist = function() {
 	return this.selection.tolist();
 }
 
+Tensor.prototype.tolist = function() {
+	return this.selection.tolist();
+}
+
 Tensor.prototype.dot = function(a) {
 	var op = new ops.MatMul()
-	return op.forward(this.selection, a.selection);
-	return Tensor(nj.dot(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection, a.selection));
 }
 
 Tensor.prototype.add = function(a) {
 	var op = new ops.Add()
-	return op.forward(this.selection, a.selection);
-	return new Tensor(nj.dot(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection, a.selection));
 }
 
 Tensor.prototype.sub = function(a) {
 	var op = new ops.Sub()
-	return op.forward(this.selection, a.selection);
-	return Tensor(nj.dot(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection, a.selection));
 }
 
 Tensor.prototype.max = function() {
 	var op = new ops.Max()
-	return op.forward(this.selection);
-	return Tensor(nj.dot(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection));
 }
 
 Tensor.prototype.min = function() {
 	var op = new ops.Min()
-	return op.forward(this.selection);
-	return Tensor(nj.dot(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection));
 }
 
 Tensor.prototype.sum = function() {
 	var op = new ops.Sum()
-	return op.forward(this.selection);
-	return Tensor(nj.dot(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection));
 }
 
 /*Tensor.prototype.backward = function(loss) {
