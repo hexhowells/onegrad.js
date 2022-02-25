@@ -3,15 +3,21 @@ var nj = require("numjs");
 var ops = require("./ops.js");
 
 
-var Tensor = function Tensor() {
-	this.selection = nj.array(arguments[0]);
+var Tensor = function Tensor(value, op=null, parents=[]) {
+	this.selection = nj.array(value);
 	this[Symbol.for('nodejs.util.inspect.custom')] = () => this.selection;
-	this.savedTensors = [];
 	this.grad = 1;
+	this.op = op
+	this.parents = [...parents]
+
 }
 
 
 Tensor.prototype.grad = this.grad;
+
+Tensor.prototype.backward = function() {
+	console.log("backward pass not yet implemented");
+}
 
 
 Tensor.prototype.tolist = function() {
@@ -20,32 +26,32 @@ Tensor.prototype.tolist = function() {
 
 Tensor.prototype.dot = function(a) {
 	var op = new ops.MatMul()
-	return new Tensor(op.forward(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection, a.selection), op, [this.selection, a]);
 }
 
 Tensor.prototype.add = function(a) {
 	var op = new ops.Add()
-	return new Tensor(op.forward(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection, a.selection), op, [this.selection, a]);
 }
 
 Tensor.prototype.sub = function(a) {
 	var op = new ops.Sub()
-	return new Tensor(op.forward(this.selection, a.selection));
+	return new Tensor(op.forward(this.selection, a.selection), op, [this.selection, a]);
 }
 
 Tensor.prototype.max = function() {
 	var op = new ops.Max()
-	return new Tensor(op.forward(this.selection));
+	return new Tensor(op.forward(this.selection), op, [this.selection]);
 }
 
 Tensor.prototype.min = function() {
 	var op = new ops.Min()
-	return new Tensor(op.forward(this.selection));
+	return new Tensor(op.forward(this.selection), op, [this.selection]);
 }
 
 Tensor.prototype.sum = function() {
 	var op = new ops.Sum()
-	return new Tensor(op.forward(this.selection));
+	return new Tensor(op.forward(this.selection), op, [this.selection]);
 }
 
 /*Tensor.prototype.backward = function(loss) {
