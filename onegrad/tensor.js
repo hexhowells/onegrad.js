@@ -26,37 +26,37 @@ Tensor.prototype.tolist = function() {
 
 Tensor.prototype.dot = function(a) {
 	var op = new ops.MatMul()
-	return new Tensor(op.forward(this.selection, a.selection), op, [this.selection, a]);
+	return new Tensor(op.forward(this.selection, a.selection), op, [this, a]);
 }
 
 Tensor.prototype.add = function(a) {
 	var op = new ops.Add()
-	return new Tensor(op.forward(this.selection, a.selection), op, [this.selection, a]);
+	return new Tensor(op.forward(this.selection, a.selection), op, [this, a]);
 }
 
 Tensor.prototype.sub = function(a) {
 	var op = new ops.Sub()
-	return new Tensor(op.forward(this.selection, a.selection), op, [this.selection, a]);
+	return new Tensor(op.forward(this.selection, a.selection), op, [this, a]);
 }
 
 Tensor.prototype.max = function() {
 	var op = new ops.Max()
-	return new Tensor(op.forward(this.selection), op, [this.selection]);
+	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
 Tensor.prototype.min = function() {
 	var op = new ops.Min()
-	return new Tensor(op.forward(this.selection), op, [this.selection]);
+	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
 Tensor.prototype.sum = function() {
 	var op = new ops.Sum()
-	return new Tensor(op.forward(this.selection), op, [this.selection]);
+	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
 Tensor.prototype.exp = function() {
 	var op = new ops.Exp()
-	return new Tensor(op.forward(this.selection), op, [this.selection]);
+	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
 /*Tensor.prototype.backward = function(loss) {
