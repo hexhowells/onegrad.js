@@ -102,6 +102,44 @@ class Exp extends Function {
 	}
 }
 
+class Negative extends Function {
+
+	forward(a) {
+		this.save_for_backward(a);
+		return nj.negative(a)
+	}
+
+	backward(prev_grad) {
+		// Not yet implemented
+	}
+}
+
+class ReLU extends Function {
+
+	forward(a) {
+		this.save_for_backward(a);
+		return iterator(a, a => ((a > 0) * a))
+	}
+
+	backward(prev_grad) {
+		// Not yet implemented
+	}
+}
+
+function iterator(x, fn) {
+    let out = x.slice().tolist()
+
+    for (let i = 0; i < out.length; i++) {
+        for (let j = 0; j < out[i].length; j++) {
+        	var tmp = fn(out[i][j])
+        	tmp += 0 // removes negative sign from 0
+            out[i][j] = tmp
+        }
+    }
+
+    return nj.array(out)
+}
+
 
 module.exports = {
 	MatMul,
@@ -110,5 +148,7 @@ module.exports = {
 	Max,
 	Min,
 	Sum,
-	Exp
+	Exp,
+	Negative,
+	ReLU
 }

@@ -58,6 +58,11 @@ Tensor.prototype.exp = function() {
 	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
+Tensor.prototype.negative = function() {
+	var op = new ops.Negative()
+	return new Tensor(op.forward(this.selection), op, [this]);
+}
+
 /*Tensor.prototype.backward = function(loss) {
 	if (this.parent)
 		this.parent.backward(loss);
@@ -82,11 +87,17 @@ function arange(...args) {
 	return new Tensor(nj.arange(...args));
 }
 
+function relu(a) {
+	var op = new ops.ReLU()
+	return new Tensor(op.forward(a.selection), op, [a])
+}
+
 
 module.exports = {
 	Tensor, 
 	ones, 
 	zeros,
 	randn,
-	arange
+	arange,
+	relu
 };

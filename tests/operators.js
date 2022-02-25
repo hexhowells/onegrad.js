@@ -2,9 +2,11 @@ var onegrad = require("./../onegrad/tensor.js")
 
 var a = new onegrad.Tensor([1,2]);
 var b = new onegrad.Tensor([3,4]);
+var c = new onegrad.Tensor([[-2.5673934, 4]]);
 
 console.log("tensor a: ", a.tolist());
 console.log("tensor b: ", b.tolist());
+console.log("tensor c: ", c.tolist());
 
 console.log("\nOperator Tests");
 
@@ -15,3 +17,5 @@ console.log("\tmax: ", a.max().tolist());
 console.log("\tmin: ", a.min().tolist());
 console.log("\tsum: ", a.sum().tolist());
 console.log("\texp: ", a.exp().tolist());
+console.log("\tneg: ", a.negative().tolist());
+console.log("\trelu: ", onegrad.relu(c).tolist());
