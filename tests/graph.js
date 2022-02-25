@@ -29,6 +29,7 @@ function showGraph(root) {
 }
 
 var d = a.dot(b)
+d = onegrad.relu(d)
 var loss = d.sub(c).sum()
 
 
