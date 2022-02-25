@@ -18,10 +18,6 @@ Tensor.prototype.tolist = function() {
 	return this.selection.tolist();
 }
 
-Tensor.prototype.tolist = function() {
-	return this.selection.tolist();
-}
-
 Tensor.prototype.dot = function(a) {
 	var op = new ops.MatMul()
 	return new Tensor(op.forward(this.selection, a.selection));
