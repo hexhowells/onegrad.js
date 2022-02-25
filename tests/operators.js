@@ -14,3 +14,4 @@ console.log("\tsub: ", a.sub(b).tolist());
 console.log("\tmax: ", a.max().tolist());
 console.log("\tmin: ", a.min().tolist());
 console.log("\tsum: ", a.sum().tolist());
+console.log("\texp: ", a.exp().tolist());

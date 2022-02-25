@@ -54,6 +54,11 @@ Tensor.prototype.sum = function() {
 	return new Tensor(op.forward(this.selection), op, [this.selection]);
 }
 
+Tensor.prototype.exp = function() {
+	var op = new ops.Exp()
+	return new Tensor(op.forward(this.selection), op, [this.selection]);
+}
+
 /*Tensor.prototype.backward = function(loss) {
 	if (this.parent)
 		this.parent.backward(loss);

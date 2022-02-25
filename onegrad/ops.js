@@ -90,6 +90,18 @@ class Sum extends Function {
 	}
 }
 
+class Exp extends Function {
+
+	forward(a) {
+		this.save_for_backward(a);
+		return nj.exp(a)
+	}
+
+	backward(prev_grad) {
+		// Not yet implemented
+	}
+}
+
 
 module.exports = {
 	MatMul,
@@ -97,5 +109,6 @@ module.exports = {
 	Sub,
 	Max,
 	Min,
-	Sum
+	Sum,
+	Exp
 }
