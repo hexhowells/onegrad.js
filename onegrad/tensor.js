@@ -19,7 +19,6 @@ Tensor.prototype.backward = function() {
 	console.log("backward pass not yet implemented");
 }
 
-
 Tensor.prototype.tolist = function() {
 	return this.selection.tolist();
 }
@@ -68,27 +67,19 @@ Tensor.prototype.exp = function() {
 
 
 function ones(shape) {
-	var tensor = new Tensor();
-	tensor.selection = nj.ones(shape);
-	return tensor;
+	return new Tensor(nj.ones(shape));
 }
 
 function zeros(shape) {
-	var tensor = new Tensor();
-	tensor.selection = nj.zeros(shape);
-	return tensor;
+	return new Tensor(nj.zeros(shape));
 }
 
 function randn(shape) {
-	var tensor = new Tensor();
-	tensor.selection = nj.random(shape);
-	return tensor;
+	return new Tensor(nj.random(shape));
 }
 
 function arange(...args) {
-	var tensor = new Tensor();
-	tensor.selection = nj.arange(...args);
-	return tensor;
+	return new Tensor(nj.arange(...args));
 }
 
 
