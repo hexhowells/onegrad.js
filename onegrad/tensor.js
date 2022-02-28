@@ -6,7 +6,7 @@ var ops = require("./ops.js");
 var Tensor = function Tensor(value, op=null, parents=[]) {
 	this.selection = nj.array(value);
 	this[Symbol.for('nodejs.util.inspect.custom')] = () => this.selection;
-	this.grad = 1;
+	this.grad = null;
 	this.op = op
 	this.parents = [...parents]
 
@@ -15,8 +15,23 @@ var Tensor = function Tensor(value, op=null, parents=[]) {
 
 Tensor.prototype.grad = this.grad;
 
-Tensor.prototype.backward = function() {
-	console.log("backward pass not yet implemented");
+Tensor.prototype.backward = function(prev_grad=null) {
+	if (!prev_grad) {
+		this.grad = nj.ones(this.selection.shape)
+	}
+
+	if (this.parents.length == 0){
+		return 0
+	}
+
+	var parent_grads = this.op.backward(...this.parents, this.grad)
+	for (let i=0; i < parent_grads.length; i++){
+		this.parents[i].grad = parent_grads[i]
+	}
+	
+	for (const node of this.parents) {
+		node.backward(this.grad)
+	}
 }
 
 Tensor.prototype.tolist = function() {
@@ -67,13 +82,6 @@ Tensor.prototype.log = function() {
 	var op = new ops.Log()
 	return new Tensor(op.forward(this.selection), op, [this]);
 }
-
-/*Tensor.prototype.backward = function(loss) {
-	if (this.parent)
-		this.parent.backward(loss);
-	else
-		return this.backward(loss);
-}*/
 
 
 function ones(shape) {

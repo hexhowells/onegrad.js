@@ -22,13 +22,11 @@ class MatMul extends Function {
 		return nj.dot(a, b)
 	}
 
-	backward(prev_grad) {
-		var a = this.saved_tensors[0];
-		var b = this.saved_tensors[1];
-		grad_input = nj.dot(prev_grad, a);
-		grad_weight = nj.dot(prev_grad, w)
+	backward(a, b, prev_grad) {
+		var grad_weight = nj.dot(a.selection.T, prev_grad);
+		var grad_input = nj.dot(b.selection, prev_grad.T)
 
-		return grad_input, grad_weight
+		return [grad_input, grad_weight]
 	}
 }
 
@@ -90,8 +88,10 @@ class Sum extends Function {
 		return nj.sum(a)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, prev_grad) {
+		var grad = nj.ones(a.selection.shape)
+		grad.assign(prev_grad.get(0), false)
+		return [grad]
 	}
 }
 
