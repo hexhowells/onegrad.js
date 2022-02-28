@@ -92,6 +92,10 @@ function arange(...args) {
 	return new Tensor(nj.arange(...args));
 }
 
+function eye(shape) {
+	return new Tensor(nj.identity(shape));
+}
+
 function relu(a) {
 	var op = new ops.ReLU()
 	return new Tensor(op.forward(a.selection), op, [a])
@@ -104,5 +108,6 @@ module.exports = {
 	zeros,
 	randn,
 	arange,
+	eye,
 	relu
 };
