@@ -63,6 +63,11 @@ Tensor.prototype.negative = function() {
 	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
+Tensor.prototype.log = function() {
+	var op = new ops.Log()
+	return new Tensor(op.forward(this.selection), op, [this]);
+}
+
 /*Tensor.prototype.backward = function(loss) {
 	if (this.parent)
 		this.parent.backward(loss);

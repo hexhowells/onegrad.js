@@ -13,6 +13,8 @@ class Function {
 }
 
 
+// ----- Binary Operations -----
+
 class MatMul extends Function {
 
 	forward(a, b) {
@@ -53,6 +55,9 @@ class Sub extends Function {
 		// Not yet implemented
 	}
 }
+
+
+// ----- Unary Operations -----
 
 class Max extends Function {
 
@@ -114,6 +119,18 @@ class Negative extends Function {
 	}
 }
 
+class Log extends Function {
+
+	forward(a) {
+		this.save_for_backward(a);
+		return nj.log(a)
+	}
+
+	backward(prev_grad) {
+		// Not yet implemented
+	}
+}
+
 class ReLU extends Function {
 
 	forward(a) {
@@ -150,5 +167,6 @@ module.exports = {
 	Sum,
 	Exp,
 	Negative,
+	Log,
 	ReLU
 }
