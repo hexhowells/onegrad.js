@@ -34,11 +34,15 @@ class Add extends Function {
 
 	forward(a, b) {
 		this.save_for_backward(a, b);
+		if (b.shape == 1){
+			b = b.get(0)
+		}
+		
 		return nj.add(a, b)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, b, prev_grad) {
+		return [prev_grad, prev_grad]
 	}
 }
 
@@ -46,11 +50,12 @@ class Sub extends Function {
 
 	forward(a, b) {
 		this.save_for_backward(a, b);
+
 		return nj.subtract(a, b)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, b, prev_grad) {
+		return [prev_grad, prev_grad]
 	}
 }
 
@@ -131,6 +136,18 @@ class Log extends Function {
 	}
 }
 
+class Transpose extends Function {
+
+	forward(a) {
+		this.save_for_backward(a);
+		return a.T
+	}
+
+	backward(a, prev_grad) {
+		return [a.selection.T]
+	}
+}
+
 class ReLU extends Function {
 
 	forward(a) {
@@ -141,6 +158,21 @@ class ReLU extends Function {
 	backward(a, prev_grad) {
 		var input = a.selection
 		var grad = dualIterator(input, prev_grad, (x, g) => ( (x >= 0) * g) )
+		return [grad]
+	}
+}
+
+class Sigmoid extends Function {
+
+	forward(a) {
+		this.save_for_backward(a);
+		return nj.sigmoid(a)
+	}
+
+	backward(a, prev_grad) {
+		var temp = nj.add( nj.negative(nj.sigmoid(a.selection)), 1 )
+		var grad = nj.multiply( nj.sigmoid(a.selection), temp )
+		grad = nj.dot(grad, prev_grad)
 		return [grad]
 	}
 }
@@ -164,7 +196,8 @@ function dualIterator(x, g, fn) {
 
     for (let i = 0; i < out.length; i++) {
         for (let j = 0; j < out[i].length; j++) {
-        	var tmp = fn(out[i][j], grad[i][j])
+      
+        	var tmp = fn(out[i][j], grad[i])
         	tmp += 0 // removes negative sign from 0
             out[i][j] = tmp
         }
@@ -183,5 +216,7 @@ module.exports = {
 	Exp,
 	Negative,
 	Log,
-	ReLU
+	Transpose,
+	ReLU,
+	Sigmoid
 }

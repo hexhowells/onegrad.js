@@ -15,10 +15,24 @@ var Tensor = function Tensor(value, op=null, parents=[]) {
 
 Tensor.prototype.grad = this.grad;
 
+Tensor.prototype.zeroGrad = function() {
+	this.grad = null
+
+	if (this.parents.length == 0) {
+		return 0
+	} 
+	for (const node of this.parents) {
+		node.zeroGrad()
+	}
+	
+}
+
 Tensor.prototype.backward = function(prev_grad=null) {
 	if (!prev_grad) {
-		this.grad = nj.ones(this.selection.shape)
+		//this.grad = nj.ones(this.selection.shape)
+		this.grad = this.selection
 	}
+
 
 	if (this.parents.length == 0){
 		return 0
@@ -87,6 +101,11 @@ Tensor.prototype.log = function() {
 	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
+Tensor.prototype.transpose = function() {
+	var op = new ops.Transpose()
+	return new Tensor(op.forward(this.selection), op, [this]);
+}
+
 
 function ones(shape) {
 	return new Tensor(nj.ones(shape));
@@ -113,6 +132,11 @@ function relu(a) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
+function sigmoid(a) {
+	var op = new ops.Sigmoid()
+	return new Tensor(op.forward(a.selection), op, [a])
+}
+
 
 module.exports = {
 	Tensor, 
@@ -121,5 +145,6 @@ module.exports = {
 	randn,
 	arange,
 	eye,
-	relu
+	relu,
+	sigmoid
 };
