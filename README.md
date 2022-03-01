@@ -16,3 +16,9 @@ z.backward();
 console.log("x: ", x.grad.tolist());  // dz/dx
 console.log("y: ", y.grad.tolist());  // dz/dy
 ```
+
+### TODO
+- look into sub backprop
+- implement backprop for all operations
+- add shape prototype to Tensor
+- add nn abstractions
