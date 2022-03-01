@@ -26,7 +26,11 @@ Tensor.prototype.backward = function(prev_grad=null) {
 
 	var parent_grads = this.op.backward(...this.parents, this.grad)
 	for (let i=0; i < parent_grads.length; i++){
-		this.parents[i].grad = parent_grads[i]
+		if(this.parents[i].grad){
+			this.parents[i].grad = nj.add(this.parents[i].grad, parent_grads[i])
+		} else{
+			this.parents[i].grad = parent_grads[i]
+		}
 	}
 	
 	for (const node of this.parents) {
