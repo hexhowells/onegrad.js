@@ -135,11 +135,13 @@ class ReLU extends Function {
 
 	forward(a) {
 		this.save_for_backward(a);
-		return iterator(a, a => ((a > 0) * a))
+		return iterator(a, (a) => ((a > 0) * a))
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, prev_grad) {
+		var input = a.selection
+		var grad = dualIterator(input, prev_grad, (x, g) => ( (x >= 0) * g) )
+		return [grad]
 	}
 }
 
@@ -153,7 +155,20 @@ function iterator(x, fn) {
             out[i][j] = tmp
         }
     }
+    return nj.array(out)
+}
 
+function dualIterator(x, g, fn) {
+    let out = x.slice().tolist()
+    let grad = g.slice().tolist()
+
+    for (let i = 0; i < out.length; i++) {
+        for (let j = 0; j < out[i].length; j++) {
+        	var tmp = fn(out[i][j], grad[i][j])
+        	tmp += 0 // removes negative sign from 0
+            out[i][j] = tmp
+        }
+    }
     return nj.array(out)
 }
 
