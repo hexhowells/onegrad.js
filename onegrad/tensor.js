@@ -9,11 +9,12 @@ var Tensor = function Tensor(value, op=null, parents=[]) {
 	this.grad = null;
 	this.op = op
 	this.parents = [...parents]
-
+	this.shape = this.selection.shape
 }
 
-
 Tensor.prototype.grad = this.grad;
+
+Tensor.prototype.shape = this.shape;
 
 Tensor.prototype.zeroGrad = function() {
 	this.grad = null
