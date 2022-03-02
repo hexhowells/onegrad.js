@@ -27,7 +27,18 @@ class Linear {
 	}
 }
 
+class MSE {
+	constructor() {
+		this.power = new onegrad.Tensor([2]);
+	}
+
+	compute(y, yHat) {
+		return y.sub(yHat).pow(this.power);
+	}
+}
+
 
 module.exports = {
-	Linear
+	Linear,
+	MSE
 }
