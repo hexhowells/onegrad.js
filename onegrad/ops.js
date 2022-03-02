@@ -59,6 +59,19 @@ class Sub extends Function {
 	}
 }
 
+class Pow extends Function {
+
+	forward(a, b) {
+		this.save_for_backward(a);
+		return a.pow(b)
+	}
+
+	backward(a, b, prev_grad) {
+		var grad = nj.matmul(b, a.selection.pow(b-1))
+		grad = nj.matmul(grad, prev_grad)
+	}
+}
+
 
 // ----- Unary Operations -----
 
@@ -210,6 +223,7 @@ module.exports = {
 	MatMul,
 	Add,
 	Sub,
+	Pow,
 	Max,
 	Min,
 	Sum,

@@ -18,6 +18,7 @@ console.log("\nBinary Operations")
 console.log("\tdot: ", a.dot(b).tolist());
 console.log("\tadd: ", a.add(b).tolist());
 console.log("\tsub: ", a.sub(b).tolist());
+console.log("\tpow: ", b.pow(2).tolist());
 console.log("\nUnary Operations")
 console.log("\tmax: ", a.max().tolist());
 console.log("\tmin: ", a.min().tolist());
