@@ -1,17 +1,9 @@
 var nj = require("numjs")
 
 
-class Function {
-	constructor(...tensors) {
-		this.parents = tensors;
-		this.saved_tensors = [];
-	}
-}
-
-
 // ----- Binary Operations -----
 
-class MatMul extends Function {
+class MatMul {
 
 	forward(a, b) {
 		return nj.dot(a, b)
@@ -25,7 +17,7 @@ class MatMul extends Function {
 	}
 }
 
-class Add extends Function {
+class Add {
 
 	forward(a, b) {
 		if (b.shape == 1){
@@ -40,7 +32,7 @@ class Add extends Function {
 	}
 }
 
-class Sub extends Function {
+class Sub {
 
 	forward(a, b) {
 
@@ -52,7 +44,7 @@ class Sub extends Function {
 	}
 }
 
-class Pow extends Function {
+class Pow {
 
 	forward(a, b) {
 		b = b.get(0)
@@ -70,7 +62,7 @@ class Pow extends Function {
 
 // ----- Unary Operations -----
 
-class Max extends Function {
+class Max {
 
 	forward(a) {
 		return nj.max(a)
@@ -81,7 +73,7 @@ class Max extends Function {
 	}
 }
 
-class Min extends Function {
+class Min {
 
 	forward(a) {
 		return nj.min(a)
@@ -92,7 +84,7 @@ class Min extends Function {
 	}
 }
 
-class Sum extends Function {
+class Sum {
 
 	forward(a) {
 		return nj.sum(a)
@@ -105,7 +97,7 @@ class Sum extends Function {
 	}
 }
 
-class Exp extends Function {
+class Exp {
 
 	forward(a) {
 		return nj.exp(a)
@@ -116,7 +108,7 @@ class Exp extends Function {
 	}
 }
 
-class Negative extends Function {
+class Negative {
 
 	forward(a) {
 		return nj.negative(a)
@@ -127,7 +119,7 @@ class Negative extends Function {
 	}
 }
 
-class Log extends Function {
+class Log {
 
 	forward(a) {
 		return nj.log(a)
@@ -138,7 +130,7 @@ class Log extends Function {
 	}
 }
 
-class Transpose extends Function {
+class Transpose {
 
 	forward(a) {
 		return a.T
@@ -149,7 +141,7 @@ class Transpose extends Function {
 	}
 }
 
-class ReLU extends Function {
+class ReLU {
 
 	forward(a) {
 		return iterator(a, (a) => ((a > 0) * a))
@@ -162,7 +154,7 @@ class ReLU extends Function {
 	}
 }
 
-class Sigmoid extends Function {
+class Sigmoid {
 
 	forward(a) {
 		return nj.sigmoid(a)
