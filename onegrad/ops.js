@@ -63,12 +63,15 @@ class Pow extends Function {
 
 	forward(a, b) {
 		this.save_for_backward(a);
+		b = b.get(0)
 		return a.pow(b)
 	}
 
 	backward(a, b, prev_grad) {
-		var grad = nj.matmul(b, a.selection.pow(b-1))
-		grad = nj.matmul(grad, prev_grad)
+		b = b.selection.get(0)
+		var grad = nj.multiply(a.selection.pow(b-1), b)
+		grad = nj.multiply(grad, prev_grad)
+		return [grad]
 	}
 }
 

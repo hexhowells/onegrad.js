@@ -59,7 +59,7 @@ Tensor.prototype.sub = function(a) {
 
 Tensor.prototype.pow = function(a) {
 	var op = new ops.Pow()
-	return new Tensor(op.forward(this.selection, a), op, [this, a]);
+	return new Tensor(op.forward(this.selection, a.selection), op, [this, a]);
 }
 
 Tensor.prototype.max = function() {
