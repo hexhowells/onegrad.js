@@ -15,6 +15,17 @@ var Tensor = function Tensor(value, op=null, parents=[]) {
 
 Tensor.prototype.grad = this.grad;
 
+Tensor.prototype.zeroGrad = function() {
+	this.grad = null
+
+	if (this.parents.length == 0) {
+		return 0
+	} 
+	for (const node of this.parents) {
+		node.zeroGrad()
+	}
+}
+
 Tensor.prototype.backward = function(prev_grad=null) {
 	if (!prev_grad) {
 		this.grad = nj.ones(this.selection.shape)
