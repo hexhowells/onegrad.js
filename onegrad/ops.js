@@ -68,10 +68,14 @@ class Max {
 		return nj.max(a)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, prev_grad) {
+		var malVal = nj.max(a.selection)
+		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), malVal, prev_grad.get(0))
+		return [grad]
 	}
 }
+
+
 
 class Min {
 
@@ -79,8 +83,10 @@ class Min {
 		return nj.min(a)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, prev_grad) {
+		var malVal = nj.min(a.selection)
+		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), malVal, prev_grad.get(0))
+		return [grad]
 	}
 }
 
@@ -103,8 +109,8 @@ class Exp {
 		return nj.exp(a)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, prev_grad) {
+		return a.matmul(prev_grad)
 	}
 }
 
@@ -114,8 +120,8 @@ class Negative {
 		return nj.negative(a)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, prev_grad) {
+		return nj.negative(prev_grad)
 	}
 }
 
@@ -125,8 +131,9 @@ class Log {
 		return nj.log(a)
 	}
 
-	backward(prev_grad) {
-		// Not yet implemented
+	backward(a, prev_grad) {
+		var grad = a.pow(-1)
+		return nj.multiply(grad, prev_grad)
 	}
 }
 
@@ -144,12 +151,12 @@ class Transpose {
 class ReLU {
 
 	forward(a) {
-		return iterator(a, (a) => ((a > 0) * a))
+		return _iterator(a, (a) => ((a > 0) * a))
 	}
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = dualIterator(input, prev_grad, (x, g) => ( (x >= 0) * g) )
+		var grad = _iterator(input, (x, g) => ( (x >= 0) * g), prev_grad.get(0))
 		return [grad]
 	}
 }
@@ -168,32 +175,14 @@ class Sigmoid {
 	}
 }
 
-function iterator(x, fn) {
-    let out = x.slice().tolist()
+function _iterator(x, fn, ...args) {
+    var out = x.flatten().tolist()
 
     for (let i = 0; i < out.length; i++) {
-        for (let j = 0; j < out[i].length; j++) {
-        	var tmp = fn(out[i][j])
-        	tmp += 0 // removes negative sign from 0
-            out[i][j] = tmp
-        }
+    	// + 0 removes negative sign from 0
+    	out[i]= fn(out[i], ...args) + 0
     }
-    return nj.array(out)
-}
-
-function dualIterator(x, g, fn) {
-    let out = x.slice().tolist()
-    let grad = g.slice().tolist()
-
-    for (let i = 0; i < out.length; i++) {
-        for (let j = 0; j < out[i].length; j++) {
-      
-        	var tmp = fn(out[i][j], grad[i])
-        	tmp += 0 // removes negative sign from 0
-            out[i][j] = tmp
-        }
-    }
-    return nj.array(out)
+    return nj.array(out).reshape(x.shape)
 }
 
 
