@@ -4,8 +4,8 @@ var tensor = new onegrad.Tensor([1,2]);
 var ones_tensor = new onegrad.ones([2,2])
 var zeros_tensor = new onegrad.zeros([2,2])
 var randn_tensor = new onegrad.randn([2,2])
-var arange_tensor = new onegrad.arange(5)
-var arange_tensor2 = new onegrad.arange(2, 10)
+var arange_tensor = new onegrad.arange([5])
+var arange_tensor2 = new onegrad.arange([2, 10])
 var eye_tensor = new onegrad.eye(3)
 
 console.log("tensor: ", tensor.tolist())

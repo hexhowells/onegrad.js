@@ -3,51 +3,41 @@ var nj = require("numjs");
 var ops = require("./ops.js");
 
 
-var Tensor = function Tensor(value, op=null, parents=[]) {
+var Tensor = function Tensor(value, op=null, parents=[], requiresGrad=false) {
 	this.selection = nj.array(value);
 	this[Symbol.for('nodejs.util.inspect.custom')] = () => this.selection;
 	this.grad = null;
 	this.op = op
 	this.parents = [...parents]
 	this.shape = this.selection.shape
+	this.requiresGrad = requiresGrad
 }
 
 Tensor.prototype.grad = this.grad;
 
 Tensor.prototype.shape = this.shape;
 
-Tensor.prototype.zeroGrad = function() {
-	this.grad = null
-
-	if (this.parents.length == 0) {
-		return 0
-	} 
-	for (const node of this.parents) {
-		node.zeroGrad()
-	}
-}
-
 Tensor.prototype.backward = function(prev_grad=null) {
 	if (!prev_grad) {
 		this.grad = nj.ones(this.selection.shape)
 	}
 
-	if (this.parents.length == 0){
-		return 0
-	}
+	if (this.parents.length != 0){
+		var parent_grads = this.op.backward(...this.parents, this.grad)
 
-	var parent_grads = this.op.backward(...this.parents, this.grad)
-	for (let i=0; i < parent_grads.length; i++){
-		if(this.parents[i].grad){
-			this.parents[i].grad = nj.add(this.parents[i].grad, parent_grads[i])
-		} else{
-			this.parents[i].grad = parent_grads[i]
+		for (let i=0; i < parent_grads.length; i++){
+			if(this.parents[i].grad){
+				this.parents[i].grad = nj.add(this.parents[i].grad, parent_grads[i])
+			} else{
+				this.parents[i].grad = parent_grads[i]
+			}
+		}
+
+		for (const node of this.parents) {
+			node.backward(this.grad)
 		}
 	}
-	
-	for (const node of this.parents) {
-		node.backward(this.grad)
-	}
+	if (this.requiresGrad == false) {this.grad = null}
 }
 
 Tensor.prototype.tolist = function() {
@@ -110,24 +100,24 @@ Tensor.prototype.transpose = function() {
 }
 
 
-function ones(shape) {
-	return new Tensor(nj.ones(shape));
+function ones(shape, requiresGrad=false) {
+	return new Tensor(nj.ones(shape), null, [], requiresGrad);
 }
 
-function zeros(shape) {
-	return new Tensor(nj.zeros(shape));
+function zeros(shape, requiresGrad=false) {
+	return new Tensor(nj.zeros(shape), null, [], requiresGrad);
 }
 
-function randn(shape) {
-	return new Tensor(nj.random(shape));
+function randn(shape, requiresGrad=false) {
+	return new Tensor(nj.random(shape), null, [], requiresGrad);
 }
 
-function arange(...args) {
-	return new Tensor(nj.arange(...args));
+function arange(args, requiresGrad=false) {
+	return new Tensor(nj.arange(...args), null, [], requiresGrad);
 }
 
-function eye(shape) {
-	return new Tensor(nj.identity(shape));
+function eye(shape, requiresGrad=false) {
+	return new Tensor(nj.identity(shape), null, [], requiresGrad);
 }
 
 function relu(a) {
