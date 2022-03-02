@@ -69,13 +69,11 @@ class Max {
 	}
 
 	backward(a, prev_grad) {
-		var malVal = nj.max(a.selection)
-		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), malVal, prev_grad.get(0))
+		var maxVal = nj.max(a.selection)
+		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), maxVal, prev_grad.get(0))
 		return [grad]
 	}
 }
-
-
 
 class Min {
 
@@ -84,8 +82,8 @@ class Min {
 	}
 
 	backward(a, prev_grad) {
-		var malVal = nj.min(a.selection)
-		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), malVal, prev_grad.get(0))
+		var minVal = nj.min(a.selection)
+		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), minVal, prev_grad.get(0))
 		return [grad]
 	}
 }
