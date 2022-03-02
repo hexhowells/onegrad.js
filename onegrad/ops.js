@@ -6,10 +6,6 @@ class Function {
 		this.parents = tensors;
 		this.saved_tensors = [];
 	}
-
-	save_for_backward(...tensors) {
-		this.saved_tensors.push(...tensors)
-	}
 }
 
 
@@ -18,7 +14,6 @@ class Function {
 class MatMul extends Function {
 
 	forward(a, b) {
-		this.save_for_backward(a, b);
 		return nj.dot(a, b)
 	}
 
@@ -33,7 +28,6 @@ class MatMul extends Function {
 class Add extends Function {
 
 	forward(a, b) {
-		this.save_for_backward(a, b);
 		if (b.shape == 1){
 			b = b.get(0)
 		}
@@ -49,7 +43,6 @@ class Add extends Function {
 class Sub extends Function {
 
 	forward(a, b) {
-		this.save_for_backward(a, b);
 
 		return nj.subtract(a, b)
 	}
@@ -62,7 +55,6 @@ class Sub extends Function {
 class Pow extends Function {
 
 	forward(a, b) {
-		this.save_for_backward(a);
 		b = b.get(0)
 		return a.pow(b)
 	}
@@ -81,7 +73,6 @@ class Pow extends Function {
 class Max extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return nj.max(a)
 	}
 
@@ -93,7 +84,6 @@ class Max extends Function {
 class Min extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return nj.min(a)
 	}
 
@@ -105,7 +95,6 @@ class Min extends Function {
 class Sum extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return nj.sum(a)
 	}
 
@@ -119,7 +108,6 @@ class Sum extends Function {
 class Exp extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return nj.exp(a)
 	}
 
@@ -131,7 +119,6 @@ class Exp extends Function {
 class Negative extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return nj.negative(a)
 	}
 
@@ -143,7 +130,6 @@ class Negative extends Function {
 class Log extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return nj.log(a)
 	}
 
@@ -155,7 +141,6 @@ class Log extends Function {
 class Transpose extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return a.T
 	}
 
@@ -167,7 +152,6 @@ class Transpose extends Function {
 class ReLU extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return iterator(a, (a) => ((a > 0) * a))
 	}
 
@@ -181,7 +165,6 @@ class ReLU extends Function {
 class Sigmoid extends Function {
 
 	forward(a) {
-		this.save_for_backward(a);
 		return nj.sigmoid(a)
 	}
 
