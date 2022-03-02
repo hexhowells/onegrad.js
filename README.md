@@ -21,4 +21,6 @@ console.log("y: ", y.grad.tolist());  // dz/dy
 - look into sub backprop
 - implement backprop for all operations
 - add shape prototype to Tensor
+- add loss functions
+- add optimiser functions
 - add nn abstractions
