@@ -87,6 +87,11 @@ Tensor.prototype.log = function() {
 	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
+Tensor.prototype.transpose = function() {
+	var op = new ops.Transpose()
+	return new Tensor(op.forward(this.selection), op, [this]);
+}
+
 
 function ones(shape) {
 	return new Tensor(nj.ones(shape));
@@ -113,6 +118,11 @@ function relu(a) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
+function sigmoid(a) {
+	var op = new ops.Sigmoid()
+	return new Tensor(op.forward(a.selection), op, [a])
+}
+
 
 module.exports = {
 	Tensor, 
@@ -121,5 +131,6 @@ module.exports = {
 	randn,
 	arange,
 	eye,
-	relu
+	relu,
+	sigmoid
 };
