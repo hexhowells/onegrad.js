@@ -12,22 +12,25 @@ console.log("\ttensor a: ", a.tolist());
 console.log("\ttensor b: ", b.tolist());
 console.log("\ttensor c: ", c.tolist());
 console.log("\ttensor d: ", d.tolist());
+console.log("\ttensor e: ", e.tolist());
 
 console.log("\n--- Operator Tests ---");
 
 console.log("\nBinary Operations")
-console.log("\tdot: ", a.dot(b).tolist());
-console.log("\tadd: ", a.add(b).tolist());
-console.log("\tsub: ", a.sub(b).tolist());
-console.log("\tpow: ", b.pow(e).tolist());
+console.log("\tdot (a, b): ", a.dot(b).tolist());
+console.log("\tadd (a, b): ", a.add(b).tolist());
+console.log("\tsub (a, b): ", a.sub(b).tolist());
+console.log("\tpow (b, e): ", b.pow(e).tolist());
+
 console.log("\nUnary Operations")
-console.log("\tmax: ", a.max().tolist());
-console.log("\tmin: ", a.min().tolist());
-console.log("\tsum: ", a.sum().tolist());
-console.log("\texp: ", a.exp().tolist());
-console.log("\tneg: ", a.negative().tolist());
-console.log("\tlog: ", a.log().tolist());
-console.log("\tTranspose: ", d.transpose().tolist())
+console.log("\tmax (a): ", a.max().tolist());
+console.log("\tmin (a): ", a.min().tolist());
+console.log("\tsum (a): ", a.sum().tolist());
+console.log("\texp (a): ", a.exp().tolist());
+console.log("\tneg (a): ", a.negative().tolist());
+console.log("\tlog (a): ", a.log().tolist());
+console.log("\tTranspose (d): ", d.transpose().tolist())
+
 console.log("\nActivation Functions")
-console.log("\trelu: ", onegrad.relu(c).tolist());
-console.log("\tsigmoid: ", onegrad.sigmoid(c).tolist());
+console.log("\trelu (c): ", onegrad.relu(c).tolist());
+console.log("\tsigmoid (c): ", onegrad.sigmoid(c).tolist());
