@@ -8,7 +8,7 @@ class Linear {
 		this.useBias = bias
 		this.weight = onegrad.randn([inDim, outDim], true);
 		if (this.useBias)
-			this.bias = onegrad.zeros([outDim], true)
+			this.bias = onegrad.zeros([outDim, 1], true)
 	}
 
 	forward(x) {
