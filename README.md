@@ -18,8 +18,9 @@ console.log("y: ", y.grad.tolist());  // dz/dy
 ```
 
 ### TODO
-- implement backprop for all operations
+- ~~implement backprop for all operations~~
 - add loss functions
 - add optimiser functions
 - add nn abstractions
 - make examples
+- make module class for defining models
