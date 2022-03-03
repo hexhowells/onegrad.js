@@ -1,6 +1,8 @@
 #  Onegrad.js
 
-A lightweight javascript machine learning library inspired by PyTorch. wraps around numjs for base matrix operations.
+A lightweight deep learning framework in JavaScript. Designed to feel like PyTorch. Uses reverse-mode automatic differentiation and wraps around numjs for base matrix operations.
+
+Examples currently only contain a simple perceptron, however this is still under active development and more sophisticated models are coming soon!
 
 ### Example
 ```javascript
