@@ -29,7 +29,7 @@ class Linear {
 
 class MSE {
 	constructor() {
-		this.power = new onegrad.Tensor([2]);
+		this.power = new onegrad.tensor([2], false);
 	}
 
 	compute(y, yHat) {
