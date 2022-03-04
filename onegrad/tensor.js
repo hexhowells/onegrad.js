@@ -5,6 +5,7 @@ var ops = require("./ops.js");
 
 var Tensor = function Tensor(value, op=null, parents=[], requiresGrad=false) {
 	this.selection = nj.array(value);
+	// when the tensor is printed, the selection (array) is returned
 	this[Symbol.for('nodejs.util.inspect.custom')] = () => this.selection;
 	this.grad = null;
 	this.op = op
@@ -100,23 +101,27 @@ Tensor.prototype.transpose = function() {
 }
 
 
-function ones(shape, requiresGrad=false) {
+function tensor(data, requiresGrad=true) {
+	return new Tensor(data, null, [], requiresGrad)
+}
+
+function ones(shape, requiresGrad=true) {
 	return new Tensor(nj.ones(shape), null, [], requiresGrad);
 }
 
-function zeros(shape, requiresGrad=false) {
+function zeros(shape, requiresGrad=true) {
 	return new Tensor(nj.zeros(shape), null, [], requiresGrad);
 }
 
-function randn(shape, requiresGrad=false) {
+function randn(shape, requiresGrad=true) {
 	return new Tensor(nj.random(shape), null, [], requiresGrad);
 }
 
-function arange(args, requiresGrad=false) {
+function arange(args, requiresGrad=true) {
 	return new Tensor(nj.arange(...args), null, [], requiresGrad);
 }
 
-function eye(shape, requiresGrad=false) {
+function eye(shape, requiresGrad=true) {
 	return new Tensor(nj.identity(shape), null, [], requiresGrad);
 }
 
@@ -132,7 +137,7 @@ function sigmoid(a) {
 
 
 module.exports = {
-	Tensor, 
+	tensor, 
 	ones, 
 	zeros,
 	randn,
