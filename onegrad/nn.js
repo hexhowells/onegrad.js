@@ -6,7 +6,8 @@ class Linear {
 		this.inDim = inDim;
 		this.outDim = outDim;
 		this.useBias = bias
-		this.weight = onegrad.randn([outDim, inDim], true);
+		var nj_arr = nj.random([outDim, inDim]).subtract(0.5)
+		this.weight = onegrad.tensor(nj_arr)
 		if (this.useBias)
 			this.bias = onegrad.zeros([outDim, 1], true)
 	}
