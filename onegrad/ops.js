@@ -168,7 +168,7 @@ class Sigmoid {
 	backward(a, prev_grad) {
 		var temp = nj.add( nj.negative(nj.sigmoid(a.selection)), 1 )
 		var grad = nj.multiply( nj.sigmoid(a.selection), temp )
-		grad = nj.dot(grad, prev_grad)
+		grad = nj.multiply(grad, prev_grad)
 		return [grad]
 	}
 }

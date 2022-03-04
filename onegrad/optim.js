@@ -25,7 +25,7 @@ class SGD extends Optim {
 	step() {
 		for (var param of this.params){
 			var update = nj.multiply(param.grad, this.lr)
-			param.selection = nj.subtract(param.selection, update)
+			param.selection = nj.subtract(param.selection, update.T)
 		}
 	}
 }

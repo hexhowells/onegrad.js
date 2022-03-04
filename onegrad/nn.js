@@ -6,13 +6,13 @@ class Linear {
 		this.inDim = inDim;
 		this.outDim = outDim;
 		this.useBias = bias
-		this.weight = onegrad.randn([inDim, outDim], true);
+		this.weight = onegrad.randn([outDim, inDim], true);
 		if (this.useBias)
 			this.bias = onegrad.zeros([outDim, 1], true)
 	}
 
 	forward(x) {
-		x = x.dot(this.weight);
+		x = this.weight.dot(x)
 		if (this.useBias)
 			x = x.add(this.bias);
 		return x;
