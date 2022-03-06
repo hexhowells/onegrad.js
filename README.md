@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/hexhowells/onegrad.js/blob/main/onegrad-logo.png" width=70%>
+  <img src="https://github.com/hexhowells/onegrad.js/blob/main/onegrad-logo.png" width=85%>
 </p>
 
 A lightweight deep learning framework in JavaScript. Designed to feel like PyTorch. Uses reverse-mode automatic differentiation and wraps around numjs for base matrix operations.
