@@ -126,7 +126,7 @@ class Negative {
 class Log {
 
 	forward(a) {
-		return nj.log(a)
+		return nj.divide(nj.log(a), 2.303) // convert ln to log (Nerst equation)
 	}
 
 	backward(a, prev_grad) {
