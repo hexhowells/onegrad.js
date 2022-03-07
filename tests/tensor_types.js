@@ -1,6 +1,6 @@
 var onegrad = require("./../onegrad/tensor.js")
 
-var tensor = new onegrad.Tensor([1,2]);
+var tensor = new onegrad.tensor([1,2]);
 var ones_tensor = new onegrad.ones([2,2])
 var zeros_tensor = new onegrad.zeros([2,2])
 var randn_tensor = new onegrad.randn([2,2])

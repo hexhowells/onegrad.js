@@ -1,7 +1,7 @@
 var onegrad = require("./../onegrad/tensor.js")
 
 var x = new onegrad.eye(3);
-var y = new onegrad.Tensor([[2, 0, -2]]);
+var y = new onegrad.tensor([[2, 0, -2]]);
 
 var z = y.dot(x).sum();
 
