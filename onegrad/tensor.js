@@ -140,6 +140,11 @@ function sigmoid(a) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
+function tanh(a) {
+	var op = new ops.Tanh()
+	return new Tensor(op.forward(a.selection), op, [a])
+}
+
 
 module.exports = {
 	tensor, 
@@ -149,5 +154,6 @@ module.exports = {
 	arange,
 	eye,
 	relu,
-	sigmoid
+	sigmoid,
+	tanh
 };

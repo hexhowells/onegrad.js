@@ -173,6 +173,20 @@ class Sigmoid {
 	}
 }
 
+class Tanh {
+
+	forward(a) {
+		return nj.tanh(a)
+	}
+
+	backward(a, prev_grad) {
+		var temp = nj.tanh(a.selection).pow(2)
+		var grad = nj.add(nj.negative(temp), 1)
+		grad = nj.multiply(grad, prev_grad)
+		return [grad]
+	}
+}
+
 function _iterator(x, fn, ...args) {
     var out = x.flatten().tolist()
 
@@ -197,5 +211,6 @@ module.exports = {
 	Log,
 	Transpose,
 	ReLU,
-	Sigmoid
+	Sigmoid,
+	Tanh
 }

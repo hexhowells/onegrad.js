@@ -1,11 +1,11 @@
 var onegrad = require("./../onegrad/tensor.js")
 
 
-var a = new onegrad.Tensor([1,2]);
-var b = new onegrad.Tensor([3,4]);
-var c = new onegrad.Tensor([[-2.5673934, 4]]);
-var d = new onegrad.Tensor([[0, 1], [2, 3]])
-var e = new onegrad.Tensor([2])
+var a = new onegrad.tensor([1,2]);
+var b = new onegrad.tensor([3,4]);
+var c = new onegrad.tensor([[-2.5673934, 4]]);
+var d = new onegrad.tensor([[0, 1], [2, 3]])
+var e = new onegrad.tensor([2])
 
 console.log("\nInput Tensors")
 console.log("\ttensor a: ", a.tolist());
@@ -34,3 +34,5 @@ console.log("\tTranspose (d): ", d.transpose().tolist())
 console.log("\nActivation Functions")
 console.log("\trelu (c): ", onegrad.relu(c).tolist());
 console.log("\tsigmoid (c): ", onegrad.sigmoid(c).tolist());
+console.log("\ttanh (c): ", onegrad.tanh(c).tolist());
+onegrad.tanh(c).backward()
