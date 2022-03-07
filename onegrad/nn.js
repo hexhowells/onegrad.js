@@ -38,8 +38,23 @@ class MSE {
 	}
 }
 
+class CrossEntropyLoss {
+	constructor() {
+		this.one = onegrad.tensor([1]);
+	}
+	compute(y, yHat) {
+		var comp1 = y.dot(yHat.log());
+		var comp2 = y.negative().add(this.one);
+		var comp3 = yHat.negative().add(this.one);
+		var comp4 = comp3.log();
+		var loss = comp1.add((comp2.dot(comp4))).negative();
+		return loss;
+	}
+}
+
 
 module.exports = {
 	Linear,
-	MSE
+	MSE,
+	CrossEntropyLoss
 }
