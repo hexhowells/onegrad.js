@@ -17,14 +17,16 @@ class Optim {
 
 class SGD extends Optim {
 
-	constructor(params, lr){
+	constructor(params, lr, bs=1){
 		super(params)
 		this.lr = lr;
+		this.bs = bs;
 	}
 
 	step() {
 		for (var param of this.params){
-			var update = nj.multiply(param.grad, this.lr)
+			var batchGrad = nj.divide(param.grad, this.bs)
+			var update = nj.multiply(batchGrad, this.lr)
 			param.selection = nj.subtract(param.selection, update.T)
 		}
 	}
