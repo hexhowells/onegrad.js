@@ -32,6 +32,23 @@ class SGD extends Optim {
 	}
 }
 
+class StepLR {
+	constructor(optimiser, stepSize=30, gamma=0.1, lastEpoch){
+		this.opt = optimiser;
+		this.stepSize = stepSize;
+		this.gamma = gamma;
+		this.lastEpoch = lastEpoch;
+	}
+
+	step() {
+		this.lastEpoch += 1
+		if (this.lastEpoch % stepSize == 0 && this.lastEpoch != 0) {
+			this.opt.lr *= this.gamma
+		}
+	}
+}
+
 module.exports = {
-	SGD
+	SGD,
+	StepLR
 }
