@@ -1,6 +1,9 @@
 var nj = require("numjs");
 var onegrad = require("./tensor.js")
 
+//
+// NN Layers
+//
 class Linear {
 	constructor(inDim, outDim, bias=true) {
 		this.inDim = inDim;
@@ -28,6 +31,36 @@ class Linear {
 	}
 }
 
+//
+// Model Parent Class
+//
+class Module {
+	constructor() {
+		this.train = true
+	}
+
+	parameters() {
+		var modelParams = []
+		for (var layer of this.layers){
+			for (var param of layer.parameters()) {
+				modelParams.push(param)
+			}
+		}
+		return modelParams
+	}
+
+	train() {
+		this.train = true
+	}
+
+	eval() {
+		this.train = false
+	}
+}
+
+//
+// Loss Functions
+//
 class MSE {
 	constructor() {
 		this.power = new onegrad.tensor([2], false);
@@ -55,6 +88,7 @@ class CrossEntropyLoss {
 
 module.exports = {
 	Linear,
+	Module,
 	MSE,
 	CrossEntropyLoss
 }
