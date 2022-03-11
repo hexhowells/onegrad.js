@@ -10,14 +10,15 @@ var layer2 = new nn.Linear(200, 128, false)
 var layer3 = new nn.Linear(128, 10, false)
 
 // hyperparameters
-const epochs = 20;
-var lr = 0.05;
-var batchSize = 16;
+const epochs = 10;
+var lr = 0.001;
+var batchSize = 32;
 
-var params = layer1.parameters().concat(layer2.parameters()).concat(layer3.parameters())
-var opt = new optim.SGD(params, lr=lr, bs=batchSize);
+// Adam -> 99.28% acc, 97.77% val acc (9 epochs)
+var params = layer1.parameters().concat(layer2.parameters()).concat(layer3.parameters());
+var opt = new optim.Adam(params, lr=lr, bs=batchSize);
 var lossfn = new nn.MSE();
-var scheduler = new optim.StepLR(opt, stepSize=5, gamma=0.1)
+//var scheduler = new optim.StepLR(opt, stepSize=5, gamma=0.1)
 
 
 function evaluate(images, labels) {
@@ -47,7 +48,7 @@ function evaluate(images, labels) {
 
 
 
-var [training, testing] = loadMnist(batchSize=batchSize)
+var [training, testing] = loadMnist(batchSize)
 console.log(`\nloaded ${training.labels.length * batchSize} images`)
 
 // training
@@ -67,7 +68,7 @@ for (let epoch=0; epoch<epochs; epoch++){
 		loss.backward()
 		opt.step();
 		opt.zeroGrad()
-		scheduler.step()
+		//scheduler.step()
 	}
 	console.log(`Accuracy: ${evaluate(training.data, training.labels)}%`)
 	console.log(`Val Accuracy: ${evaluate(testing.data, testing.labels)}%`)
