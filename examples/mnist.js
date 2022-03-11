@@ -14,7 +14,6 @@ const epochs = 10;
 var lr = 0.001;
 var batchSize = 32;
 
-// Adam -> 99.28% acc, 97.77% val acc (9 epochs)
 var params = layer1.parameters().concat(layer2.parameters()).concat(layer3.parameters());
 var opt = new optim.Adam(params, lr=lr, bs=batchSize);
 var lossfn = new nn.MSE();
