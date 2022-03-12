@@ -31,6 +31,51 @@ class Linear {
 	}
 }
 
+
+class RNN {
+	constructor(inDim, outDim, bias=true) {
+		this.inDim = inDim;
+		this.outDim = outDim;
+		this.useBias = bias
+
+		if (this.useBias)
+			this.bias = onegrad.zeros([outDim, 1], true)
+
+		var w_arr = nj.random([outDim, inDim]).subtract(0.5)
+		var hw_arr = nj.random([outDim, outDim]).subtract(0.5)
+
+		this.weight = onegrad.tensor(w_arr)
+		this.hiddenWeight = onegrad.tensor(hw_arr)
+		this.prevOutput = onegrad.zeros([outDim, 1])
+	}
+
+	forward(x) {
+		x = this.weight.dot(x)
+		var prev = this.hiddenWeight.dot(this.prevOutput)
+		x = x.add(prev)
+
+		if (this.useBias)
+			x = x.add(this.bias);
+
+		x = onegrad.tanh(x)
+		this.prevOutput = x
+		return x
+	}
+
+	parameters() {
+		if (this.useBias) {
+			return [this.weight, this.hiddenWeight, this.bias]
+		} else {
+			return [this.weight, this.hiddenWeight]
+		}
+	}
+
+	resetPrev() {
+		this.prevOutput = onegrad.zeros([this.outDim, 1])
+		this.hiddenWeight.parents = []
+	}
+}
+
 //
 // Model Parent Class
 //
@@ -88,6 +133,7 @@ class CrossEntropyLoss {
 
 module.exports = {
 	Linear,
+	RNN,
 	Module,
 	MSE,
 	CrossEntropyLoss
