@@ -116,6 +116,17 @@ class MSE {
 	}
 }
 
+class MAE {
+	constructor() {
+		this.power = new onegrad.tensor([2], false);
+		this.half = new onegrad.tensor([0.5], false)
+	}
+
+	compute(y, yHat) {
+		return y.sub(yHat).pow(this.power).pow(this.half);
+	}
+}
+
 class CrossEntropyLoss {
 	constructor() {
 		this.one = onegrad.tensor([1]);
@@ -136,5 +147,6 @@ module.exports = {
 	RNN,
 	Module,
 	MSE,
+	MAE,
 	CrossEntropyLoss
 }
