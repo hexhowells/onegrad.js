@@ -1,3 +1,4 @@
+"use strict"
 var nj = require("numjs");
 var onegrad = require("./tensor.js")
 
