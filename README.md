@@ -25,6 +25,7 @@ console.log("y: ", y.grad.tolist());  // dz/dy
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
 - ~~add module class for defining models~~
-- add more loss functions
+- add more loss functions (CategoricalCrossEntropy, NLLLoss)
 - add more nn abstractions (RNN, LSTM, Conv2d)
+- add more activation functions (LeakyReLU, ReLU6, SELU, Softmax)
 - add more examples
