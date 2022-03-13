@@ -98,7 +98,73 @@ tensor([1, 1, 1])
 tensor([-1, -1, -1])
 
 ```
+### Tensor Operations
+Onegrad supports most tensor operations required for deep learning
 
+#### Unary operations
+```javascript
+> var a = onegrad.tensor([1, 2]);
+
+> a.max()
+tensor([2]
+
+> a.min()
+tensor([1])
+
+> a.sum()
+tensor([3])
+
+> a.exp()
+tensor([2.718281828459045, 7.38905609893065])
+
+> a.negative()
+tensor([-1, -2])
+
+> a.log()
+tensor([0, 0.300975762292638])
+```
+
+#### Binary Operations
+```javascript
+> var a = onegrad.tensor([1, 2]);
+> var b = onegrad.tensor([3, 4]);
+> var c = onegrad.tensor([2]);
+
+> a.dot(b)
+tensor([11])
+
+> a.add(b)
+tensor([4, 6])
+
+> a.sub(b)
+tensor([-2, -2])
+
+> a.pow(b)
+tensor([1, 4])
+```
+
+### Tensor Manipulation
+Onegrad supports the ```transpose``` and ```reshape``` operations for manipulating tensors.
+
+**Note:** ```reshape``` reshapes the tensor **in-place**
+```javascript
+> var a = onegrad.tensor([[1, 2, 3, 4]]);
+> a.shape
+[1, 4]
+
+> a.transpose()
+tensor([[1], [2], [3], [4]])
+> a.transpose().shape
+[4, 1]
+
+> a.reshape([2, 2])
+> a
+tensor([[1, 2], 
+        [3, 4]])
+> a.shape
+[2, 2]
+
+```
 
 ### TODO
 - ~~implement backprop for all operations~~
