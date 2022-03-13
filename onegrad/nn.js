@@ -142,6 +142,16 @@ class CrossEntropyLoss {
 	}
 }
 
+class Softmax {
+	constructor() {
+		this.divPower = onegrad.tensor([-1])
+	}
+	compute(x) {
+		var denom = x.exp().sum()
+		return x.exp().transpose().dot(denom.pow(this.divPower))
+	}
+}
+
 
 module.exports = {
 	Linear,
@@ -149,5 +159,6 @@ module.exports = {
 	Module,
 	MSE,
 	MAE,
-	CrossEntropyLoss
+	CrossEntropyLoss,
+	Softmax
 }
