@@ -22,7 +22,7 @@ console.log("y: ", y.grad.tolist());  // dz/dy
 ```
 ***
 
-### Tensor Creation
+## Tensor Creation
 Onegrad has many helper functions for creating tensors. All helper functions have the optional argument ```requiresGrad``` for specifying if the tensors gradient should be saved after a backwards pass (set to ```true``` by default)
 ```javascript
 > onegrad.tensor([1, 2, 3]);
@@ -98,7 +98,7 @@ tensor([1, 1, 1])
 tensor([-1, -1, -1])
 
 ```
-### Tensor Operations
+## Tensor Operations
 Onegrad supports most tensor operations required for deep learning
 
 #### Unary operations
@@ -143,7 +143,7 @@ tensor([-2, -2])
 tensor([1, 4])
 ```
 
-### Tensor Manipulation
+## Tensor Manipulation
 Onegrad supports the ```transpose``` and ```reshape``` operations for manipulating tensors.
 
 **Note:** ```reshape``` reshapes the tensor **in-place**
@@ -164,6 +164,32 @@ tensor([[1, 2],
 > a.shape
 [2, 2]
 
+```
+
+## Activation Functions
+Onegrad supports most of the common activations functions (with more coming soon!)
+```javascript
+> var a = onegrad.tensor([-2.5673934, 4]);
+
+> onegrad.sigmoid(a)
+tensor([0.07126663626540311, 0.9820137900379085])
+
+> onegrad.tanh(a)
+tensor([-0.9882923248658222, 0.999329299739067])
+
+> onegrad.relu(a)
+tensor([0, 4])
+
+> var b = onegrad.tensor([[1.3, 5.1, 2.2, 0.7, 1.1]]);
+> var softmax = new nn.Softmax();
+> softmax.compute(b)
+tensor([
+  0.02019046473258069,
+  0.9025376890165726,
+  0.04966052987196014,
+  0.011080761983386348,
+  0.016530554395500222
+])
 ```
 
 ### TODO
