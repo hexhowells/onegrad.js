@@ -38,5 +38,4 @@ console.log("\trelu (c): ", onegrad.relu(c).tolist());
 console.log("\tsigmoid (c): ", onegrad.sigmoid(c).tolist());
 console.log("\ttanh (c): ", onegrad.tanh(c).tolist());
 var softmax = new nn.Softmax()
-console.log("\nSoftmax: ", softmax.compute(f))
-onegrad.tanh(c).backward()
+console.log("\tSoftmax: ", softmax.compute(f).tolist())
