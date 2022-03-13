@@ -1,4 +1,5 @@
 var onegrad = require("./../onegrad/tensor.js")
+var nn = require("./../onegrad/nn.js");
 
 
 var a = new onegrad.tensor([1,2]);
@@ -6,6 +7,7 @@ var b = new onegrad.tensor([3,4]);
 var c = new onegrad.tensor([[-2.5673934, 4]]);
 var d = new onegrad.tensor([[0, 1], [2, 3]])
 var e = new onegrad.tensor([2])
+var f = new onegrad.tensor([[1.3, 5.1, 2.2, 0.7, 1.1]])
 
 console.log("\nInput Tensors")
 console.log("\ttensor a: ", a.tolist());
@@ -35,4 +37,6 @@ console.log("\nActivation Functions")
 console.log("\trelu (c): ", onegrad.relu(c).tolist());
 console.log("\tsigmoid (c): ", onegrad.sigmoid(c).tolist());
 console.log("\ttanh (c): ", onegrad.tanh(c).tolist());
+var softmax = new nn.Softmax()
+console.log("\nSoftmax: ", softmax.compute(f))
 onegrad.tanh(c).backward()
