@@ -171,6 +171,6 @@ tensor([[1, 2],
 - ~~add more optimiser functions~~
 - ~~add module class for defining models~~
 - add more loss functions (CategoricalCrossEntropy, NLLLoss)
-- add more nn abstractions (RNN, LSTM, Conv2d)
-- add more activation functions (LeakyReLU, ReLU6, SELU, Softmax)
+- add more nn abstractions (LSTM, Conv2d)
+- add more activation functions (LeakyReLU, ReLU6, SELU)
 - add more examples
