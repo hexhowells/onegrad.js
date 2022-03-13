@@ -78,7 +78,7 @@ array([1, 2, 3])
 > a.requiresGrad
 true
 ```
-```.backward()``` is used to perform a backwards pass on the tensors.
+Calling ```.backward()``` on a tensor performs a backwards pass on its DAG.
 ```javascript
 > var a = onegrad.tensor([1, 2, 3]);
 > var b = onegrad.tensor([2, 2, 2]);
