@@ -15,6 +15,7 @@ console.log("\ttensor b: ", b.tolist());
 console.log("\ttensor c: ", c.tolist());
 console.log("\ttensor d: ", d.tolist());
 console.log("\ttensor e: ", e.tolist());
+console.log("\ttensor f: ", f.tolist());
 
 console.log("\n--- Operator Tests ---");
 
