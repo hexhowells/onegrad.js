@@ -2,12 +2,12 @@ var onegrad = require("./../onegrad/tensor.js")
 var nn = require("./../onegrad/nn.js");
 
 
-var a = new onegrad.tensor([1,2]);
-var b = new onegrad.tensor([3,4]);
-var c = new onegrad.tensor([[-2.5673934, 4]]);
-var d = new onegrad.tensor([[0, 1], [2, 3]])
-var e = new onegrad.tensor([2])
-var f = new onegrad.tensor([[1.3, 5.1, 2.2, 0.7, 1.1]])
+var a = onegrad.tensor([1,2]);
+var b = onegrad.tensor([3,4]);
+var c = onegrad.tensor([-2.5673934, 4]);
+var d = onegrad.tensor([[0, 1], [2, 3]])
+var e = onegrad.tensor([2])
+var f = onegrad.tensor([[1.3, 5.1, 2.2, 0.7, 1.1]])
 
 console.log("\nInput Tensors")
 console.log("\ttensor a: ", a.tolist());
