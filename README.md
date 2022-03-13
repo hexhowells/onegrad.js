@@ -52,7 +52,7 @@ tensor([[ 1, 0, 0 ],
 
 ```
 ## Infomation about the Tensor
-Onegrad tensors have multiple properties that can be accessed by the user
+Onegrad tensors have multiple properties that can be accessed by the user:
 - ```.shape``` dimenstions of the tensor
 - ```.selection``` Numjs array contained in the tensor
 - ```.grad``` gradient of the tensor
@@ -78,6 +78,7 @@ array([1, 2, 3])
 > a.requiresGrad
 true
 ```
+```.backward()``` is used to perform a backwards pass on the tensors.
 ```javascript
 > var a = onegrad.tensor([1, 2, 3]);
 > var b = onegrad.tensor([2, 2, 2]);
