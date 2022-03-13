@@ -200,3 +200,4 @@ tensor([
 - add more nn abstractions (LSTM, Conv2d)
 - add more activation functions (LeakyReLU, ReLU6, SELU)
 - add more examples
+- add ability to save and load model weights
