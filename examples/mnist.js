@@ -57,6 +57,7 @@ function train(training, testing) {
 		console.log(`Accuracy: ${evaluate(training.data, training.labels)}%`)
 		console.log(`Val Accuracy: ${evaluate(testing.data, testing.labels)}%`)
 	}
+	model.save("mnist.json")
 }
 
 
