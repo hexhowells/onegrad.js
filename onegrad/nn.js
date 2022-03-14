@@ -1,4 +1,5 @@
 "use strict"
+var fs = require('fs');
 var nj = require("numjs");
 var onegrad = require("./tensor.js")
 
@@ -101,6 +102,24 @@ class Module {
 
 	eval() {
 		this.train = false
+	}
+
+	save(path) {
+		var params = this.parameters()
+	    var array = []
+	    for (var param of params) {
+	      array.push(param.selection.tolist())
+	    }
+	    fs.writeFileSync(path, JSON.stringify(array));
+	}
+
+	load(path) {
+		var params = this.parameters()
+	    const fileContent = fs.readFileSync(path);
+	    const array = JSON.parse(fileContent);
+	    for (let i=0; i<params.length; i++) {
+	    	params[i].selection = nj.array(array[i])
+	    }
 	}
 }
 
