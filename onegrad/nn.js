@@ -151,6 +151,7 @@ class CrossEntropyLoss {
 	constructor() {
 		this.one = onegrad.tensor([1]);
 	}
+
 	compute(y, yHat) {
 		var comp1 = y.dot(yHat.log());
 		var comp2 = y.negative().add(this.one);
@@ -161,13 +162,23 @@ class CrossEntropyLoss {
 	}
 }
 
+//
+// Activation Functions
+//
 class Softmax {
 	constructor() {
 		this.divPower = onegrad.tensor([-1])
 	}
+
 	compute(x) {
 		var denom = x.exp().sum()
-		return x.exp().transpose().dot(denom.pow(this.divPower))
+		var arr =  x.exp().transpose().dot(denom.pow(this.divPower))
+		arr.reshape(x.shape)
+		return arr
+	}
+
+	parameters() {
+		return []
 	}
 }
 
