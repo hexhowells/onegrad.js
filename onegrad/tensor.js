@@ -135,6 +135,11 @@ function relu(a) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
+function relu6(a) {
+	var op = new ops.ReLU6()
+	return new Tensor(op.forward(a.selection), op, [a])
+}
+
 function sigmoid(a) {
 	var op = new ops.Sigmoid()
 	return new Tensor(op.forward(a.selection), op, [a])
@@ -154,6 +159,7 @@ module.exports = {
 	arange,
 	eye,
 	relu,
+	relu6,
 	sigmoid,
 	tanh
 };

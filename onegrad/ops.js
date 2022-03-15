@@ -159,6 +159,19 @@ class ReLU {
 	}
 }
 
+class ReLU6 {
+
+	forward(a) {
+		return _iterator(a, (a) => (Math.min( ...[(a > 0) * a, 6] )))
+	}
+
+	backward(a, prev_grad) {
+		var input = a.selection
+		var grad = _iterator(input, (x, g) => ( (x >= 0) * g), prev_grad.get(0))
+		return [grad]
+	}
+}
+
 class Sigmoid {
 
 	forward(a) {
@@ -211,6 +224,7 @@ module.exports = {
 	Log,
 	Transpose,
 	ReLU,
+	ReLU6,
 	Sigmoid,
 	Tanh
 }
