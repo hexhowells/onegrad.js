@@ -174,13 +174,17 @@ class ReLU6 {
 
 class LeakyReLU {
 
+	constructor(negativeSlope=0.01) {
+		this.ns = negativeSlope
+	}
+
 	forward(a) {
-		return _iterator(a, (a) => ( ((a > 0) ? 1 : 0.01) * a))
+		return _iterator(a, (a) => ( ((a > 0) ? 1 : this.ns) * a))
 	}
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = _iterator(input, (x, g) => ( ((x >= 0) ? 1 : 0.01) * g), prev_grad.get(0))
+		var grad = _iterator(input, (x, g) => ( ((x >= 0) ? 1 : this.ns) * g), prev_grad.get(0))
 		return [grad]
 	}
 }

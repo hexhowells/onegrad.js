@@ -140,8 +140,8 @@ function relu6(a) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
-function leakyRelu(a) {
-	var op = new ops.LeakyReLU()
+function leakyRelu(a, negativeSlope) {
+	var op = new ops.LeakyReLU(negativeSlope)
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
