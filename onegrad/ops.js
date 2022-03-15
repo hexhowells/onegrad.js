@@ -180,7 +180,7 @@ class LeakyReLU {
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = _iterator(input, (x, g) => ( (x >= 0) * g), prev_grad.get(0))
+		var grad = _iterator(input, (x, g) => ( ((x >= 0) ? 1 : 0.01) * g), prev_grad.get(0))
 		return [grad]
 	}
 }
