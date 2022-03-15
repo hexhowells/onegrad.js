@@ -7,12 +7,12 @@ var nj = require("numjs")
 class MatMul {
 
 	forward(a, b) {
-		return nj.dot(a, b)
+		return nj.dot(b, a.T)
 	}
 
 	backward(a, b, prev_grad) {
-		var grad_weight = nj.dot(a.selection.T, prev_grad);
-		var grad_input = nj.dot(b.selection, prev_grad.T)
+		var grad_weight = nj.dot(prev_grad, a.selection);
+		var grad_input = nj.dot(b.selection.T, prev_grad)
 
 		return [grad_input, grad_weight]
 	}
@@ -36,7 +36,6 @@ class Add {
 class Sub {
 
 	forward(a, b) {
-
 		return nj.subtract(a, b)
 	}
 

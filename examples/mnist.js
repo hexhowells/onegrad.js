@@ -44,9 +44,9 @@ function train(training, testing) {
 
 		for (let i=0; i<training.data.length; i++){
 			var input_tensor = training.data[i];
-			var target_tensor = training.labels[i].transpose();
+			var target_tensor = training.labels[i];
 
-			var output = model.forward(input_tensor.transpose())
+			var output = model.forward(input_tensor)
 
 			var loss = lossfn.compute(target_tensor, output);
 
@@ -67,8 +67,7 @@ function evaluate(images, labels) {
 	for (let i=0; i<images.length; i++) {
 		// forward pass
 		model.eval()
-		var output = model.forward(images[i].transpose())
-		output = output.transpose()
+		var output = model.forward(images[i])
 		
 		// extract answer
 		var out_arr = output.selection.tolist()

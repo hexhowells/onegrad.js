@@ -48,7 +48,7 @@ class RNN {
 
 		this.weight = onegrad.tensor(w_arr)
 		this.hiddenWeight = onegrad.tensor(hw_arr)
-		this.prevOutput = onegrad.zeros([outDim, 1])
+		this.prevOutput = onegrad.zeros([1, outDim])
 	}
 
 	forward(x) {
@@ -73,7 +73,7 @@ class RNN {
 	}
 
 	resetPrev() {
-		this.prevOutput = onegrad.zeros([this.outDim, 1])
+		this.prevOutput = onegrad.zeros([1, this.outDim])
 		this.hiddenWeight.parents = []
 	}
 }
