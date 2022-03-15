@@ -155,6 +155,11 @@ function tanh(a) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
+function selu(a, alpha, lambda) {
+	var op = new ops.SELU(alpha, lambda)
+	return new Tensor(op.forward(a.selection), op, [a])
+}
+
 
 module.exports = {
 	tensor, 
@@ -167,5 +172,6 @@ module.exports = {
 	relu6,
 	leakyRelu,
 	sigmoid,
-	tanh
+	tanh,
+	selu
 };

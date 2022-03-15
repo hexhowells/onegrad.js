@@ -42,3 +42,4 @@ var softmax = new nn.Softmax()
 console.log("\tSoftmax (f): ", softmax.compute(f).tolist())
 console.log("\trelu6 (c): ", onegrad.relu6(c).tolist());
 console.log("\tleakyRelu (c): ", onegrad.leakyRelu(c).tolist());
+console.log("\tselu (c): ", onegrad.selu(c).tolist());

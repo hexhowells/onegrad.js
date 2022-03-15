@@ -176,15 +176,17 @@ class LeakyReLU {
 
 	constructor(negativeSlope=0.01) {
 		this.ns = negativeSlope
+		this.func = ((a) => ( ((a > 0) ? 1 : this.ns) * a))
+		this.funcBackwards = ((x, g) => ( ((x >= 0) ? 1 : this.ns) * g))
 	}
 
 	forward(a) {
-		return _iterator(a, (a) => ( ((a > 0) ? 1 : this.ns) * a))
+		return _iterator(a, this.func)
 	}
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = _iterator(input, (x, g) => ( ((x >= 0) ? 1 : this.ns) * g), prev_grad.get(0))
+		var grad = _iterator(input, this.funcBackwards, prev_grad.get(0))
 		return [grad]
 	}
 }
@@ -217,6 +219,28 @@ class Tanh {
 	}
 }
 
+class SELU {
+
+	constructor(alpha=1.6733, lambda=1.0507) {
+		this.alpha = alpha
+		this.lambda = lambda
+		this.lamAlp = this.lambda * this.alpha
+		this.func = ((a) => ( this.lambda * (a >= 0) ? a : this.alpha*Math.exp(a)-this.alpha ))
+		this.funcBackwards = ((x, g) => ( ((x > 0) ? this.lambda : x + this.lamAlp) * g))
+	}
+
+	forward(a) {
+		return _iterator(a, this.func)
+	}
+
+	backward(a, prev_grad) {
+		var input = a.selection
+		var grad = _iterator(input, this.funcBackwards, prev_grad.get(0))
+
+		return [grad]
+	}
+}
+
 function _iterator(x, fn, ...args) {
     var out = x.flatten().tolist()
 
@@ -244,5 +268,6 @@ module.exports = {
 	ReLU6,
 	LeakyReLU,
 	Sigmoid,
-	Tanh
+	Tanh,
+	SELU
 }
