@@ -140,6 +140,11 @@ function relu6(a) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
+function leakyRelu(a) {
+	var op = new ops.LeakyReLU()
+	return new Tensor(op.forward(a.selection), op, [a])
+}
+
 function sigmoid(a) {
 	var op = new ops.Sigmoid()
 	return new Tensor(op.forward(a.selection), op, [a])
@@ -160,6 +165,7 @@ module.exports = {
 	eye,
 	relu,
 	relu6,
+	leakyRelu,
 	sigmoid,
 	tanh
 };
