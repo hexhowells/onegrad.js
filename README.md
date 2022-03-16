@@ -197,8 +197,8 @@ tensor([
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
 - ~~add module class for defining models~~
+- - ~~add more activation functions (LeakyReLU, ReLU6, SELU)~~
+- - ~~add ability to save and load model weights~~
 - add more loss functions (CategoricalCrossEntropy, NLLLoss)
 - add more nn abstractions (LSTM, Conv2d)
-- add more activation functions (LeakyReLU, ReLU6, SELU)
 - add more examples
-- add ability to save and load model weights
