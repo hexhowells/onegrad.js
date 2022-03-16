@@ -171,9 +171,9 @@ class Softmax {
 	}
 
 	compute(x) {
-		var denom = x.exp().sum()
+		var denom = x.exp().transpose().sum()
+		denom.reshape([1,1])
 		var arr =  x.exp().transpose().dot(denom.pow(this.divPower))
-		arr.reshape(x.shape)
 		return arr
 	}
 
