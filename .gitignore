@@ -3,3 +3,4 @@ package-lock.json
 _*.*
 datasets/mnist/mnist_test.csv
 datasets/mnist/mnist_train.csv
+models/
