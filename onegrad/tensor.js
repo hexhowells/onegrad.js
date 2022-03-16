@@ -19,7 +19,7 @@ Tensor.prototype.grad = this.grad;
 Tensor.prototype.shape = this.shape;
 
 Tensor.prototype.backward = function(prev_grad=null) {
-	if (!prev_grad) {
+	if (!prev_grad || this.grad == null) {
 		this.grad = nj.ones(this.selection.shape)
 	}
 
