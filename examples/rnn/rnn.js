@@ -1,8 +1,8 @@
-var onegrad = require("./../onegrad/tensor.js");
-var optim = require("./../onegrad/optim.js");
-var nn = require("./../onegrad/nn.js");
-var utils = require('./../onegrad/utils')
-var {Loader} = require("./../datasets/loadText");
+var onegrad = require("./../../onegrad/tensor.js");
+var optim = require("./../../onegrad/optim.js");
+var nn = require("./../../onegrad/nn.js");
+var utils = require('./../../onegrad/utils')
+var {Loader} = require("./../../datasets/loadText");
 
 
 // define model
@@ -41,7 +41,7 @@ var hp = {
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 // dataset loader
-var loader = new Loader("../datasets/names.txt", hp.sampleSize)
+var loader = new Loader("../../datasets/names.txt", hp.sampleSize)
 console.log(`Dataset contains ${loader.data.length} characters and ${loader.vocabSize} unique tokens\n`)
 
 // objects for training
