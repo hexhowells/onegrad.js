@@ -54,6 +54,7 @@ class Pow {
 	backward(a, b, prev_grad) {
 		b = b.selection.get(0)
 		var grad = nj.multiply(a.selection.pow(b-1), b)
+		grad = grad.reshape(prev_grad.shape)
 		grad = nj.multiply(grad, prev_grad)
 		return [grad]
 	}
@@ -96,7 +97,7 @@ class Sum {
 
 	backward(a, prev_grad) {
 		var grad = nj.ones(a.selection.shape)
-		grad.assign(prev_grad.get(0), false)
+		grad.assign(prev_grad.flatten().get(0), false)
 		return [grad]
 	}
 }
@@ -108,7 +109,7 @@ class Exp {
 	}
 
 	backward(a, prev_grad) {
-		return a.matmul(prev_grad)
+		return nj.dot(a.selection, prev_grad)
 	}
 }
 
