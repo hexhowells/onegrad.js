@@ -82,7 +82,7 @@ for (let counter=0; counter<hp.iterations; counter++){
 	model.resetPrev()
 
 	// mini-batch GD
-	if (counter % hp.bs) {
+	if (counter % hp.bs == 0) {
 		opt.step()
 		opt.zeroGrad()
 	}
