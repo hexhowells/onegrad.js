@@ -168,7 +168,7 @@ tensor([[1, 2],
 ```
 
 ## Activation Functions
-Onegrad supports most of the common activations functions (with more coming soon!)
+Onegrad supports most of the common activations functions
 ```javascript
 > var a = onegrad.tensor([-2.5673934, 4]);
 
@@ -180,6 +180,15 @@ tensor([-0.9882923248658222, 0.999329299739067])
 
 > onegrad.relu(a)
 tensor([0, 4])
+
+> onegrad.relu6(a)
+tensor([0, 4])
+
+> onegrad.leakyRelu(a)
+tensor([-0.025673934, 4])
+
+> onegrad.selu(a)
+tensor([-1.5448988171423363, 4])
 
 > var b = onegrad.tensor([[1.3, 5.1, 2.2, 0.7, 1.1]]);
 > var softmax = new nn.Softmax();
@@ -200,6 +209,6 @@ tensor([
 - ~~add more activation functions (LeakyReLU, ReLU6, SELU)~~
 - ~~add ability to save and load model weights~~
 - add more loss functions (CategoricalCrossEntropy, NLLLoss)
-- add more nn abstractions (LSTM, Conv2d)
+- add more nn abstractions (LSTM, GRU, Conv2d)
 - add more examples
 - webpack source code
