@@ -50,6 +50,11 @@ Tensor.prototype.dot = function(a) {
 	return new Tensor(op.forward(this.selection, a.selection), op, [this, a]);
 }
 
+Tensor.prototype.mul = function(a) {
+	var op = new ops.Multiply()
+	return new Tensor(op.forward(this.selection, a.selection), op, [this, a]);
+}
+
 Tensor.prototype.add = function(a) {
 	var op = new ops.Add()
 	return new Tensor(op.forward(this.selection, a.selection), op, [this, a]);

@@ -18,6 +18,20 @@ class MatMul {
 	}
 }
 
+class Multiply {
+
+	forward(a, b) {
+		return nj.multiply(a, b)
+	}
+
+	backward(a, b, prev_grad) {
+		var grad_weight = nj.multiply(prev_grad, a.selection);
+		var grad_input = nj.multiply(prev_grad, b.selection)
+
+		return [grad_input, grad_weight]
+	}
+}
+
 class Add {
 
 	forward(a, b) {
@@ -255,6 +269,7 @@ function _iterator(x, fn, ...args) {
 
 module.exports = {
 	MatMul,
+	Multiply,
 	Add,
 	Sub,
 	Pow,
