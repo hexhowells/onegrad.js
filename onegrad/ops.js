@@ -1,5 +1,6 @@
 "use strict"
 var nj = require("numjs")
+var utils = require("./utils")
 
 
 // ----- Binary Operations -----
@@ -256,6 +257,34 @@ class SELU {
 	}
 }
 
+class Softmax {
+	constructor() {
+		this.out = null
+	}
+
+	forward(x) {
+		var denom = x.exp().transpose().sum()
+		denom = denom ** -1
+		var arr =  x.exp().transpose().dot(denom)
+		this.out = arr
+		return arr
+	}
+
+	backward(a, prev_grad) {
+		var a = this.out.flatten()
+		var diag = utils.diagFlat(a)
+
+		a = a.reshape([a.shape[0], 1])
+		var inverse = nj.dot(a, a.T)
+
+		var grad = nj.subtract(diag, inverse)
+		//grad = nj.multiply(grad, 1_000_000_000)
+		grad = nj.dot(grad, prev_grad)
+		
+		return [grad]
+	}
+}
+
 function _iterator(x, fn, ...args) {
     var out = x.flatten().tolist()
 
@@ -285,5 +314,6 @@ module.exports = {
 	LeakyReLU,
 	Sigmoid,
 	Tanh,
-	SELU
+	SELU,
+	Softmax
 }

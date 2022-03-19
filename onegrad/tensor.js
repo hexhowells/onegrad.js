@@ -170,6 +170,10 @@ function selu(a, alpha, lambda) {
 	return new Tensor(op.forward(a.selection), op, [a])
 }
 
+function softmax(a) {
+	var op = new ops.Softmax()
+	return new Tensor(op.forward(a.selection), op, [a])
+}
 
 module.exports = {
 	tensor, 
@@ -183,5 +187,6 @@ module.exports = {
 	leakyRelu,
 	sigmoid,
 	tanh,
-	selu
+	selu,
+	softmax
 };
