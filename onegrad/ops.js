@@ -162,6 +162,18 @@ class Transpose {
 	}
 }
 
+class Identity {
+
+	forward(a) {
+		return a
+	}
+
+	backward(a, prev_grad) {
+		return [prev_grad]
+	}
+}
+
+
 class ReLU {
 
 	forward(a) {
@@ -267,6 +279,7 @@ class Softmax {
 		denom = denom ** -1
 		var arr =  x.exp().transpose().dot(denom)
 		this.out = arr
+		//arr = arr.reshape([1, arr.shape[0]])
 		return arr
 	}
 
@@ -278,9 +291,8 @@ class Softmax {
 		var inverse = nj.dot(a, a.T)
 
 		var grad = nj.subtract(diag, inverse)
-		//grad = nj.multiply(grad, 1_000_000_000)
 		grad = nj.dot(grad, prev_grad)
-		
+
 		return [grad]
 	}
 }
@@ -309,6 +321,7 @@ module.exports = {
 	Negative,
 	Log,
 	Transpose,
+	Identity,
 	ReLU,
 	ReLU6,
 	LeakyReLU,

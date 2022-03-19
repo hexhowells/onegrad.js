@@ -106,6 +106,11 @@ Tensor.prototype.transpose = function() {
 	return new Tensor(op.forward(this.selection), op, [this]);
 }
 
+Tensor.prototype.identity = function() {
+	var op = new ops.Identity()
+	return new Tensor(op.forward(this.selection), op, [this]);
+}
+
 Tensor.prototype.reshape = function(...shape) {
 	this.selection = this.selection.reshape(...shape)
 	this.shape = this.selection.shape
