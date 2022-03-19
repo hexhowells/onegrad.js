@@ -110,6 +110,10 @@ Tensor.prototype.reshape = function(...shape) {
 	this.shape = this.selection.shape
 }
 
+Tensor.prototype.retainGrad = function() {
+	this.requiresGrad = true
+}
+
 
 function tensor(data, requiresGrad=true) {
 	return new Tensor(data, null, [], requiresGrad)
