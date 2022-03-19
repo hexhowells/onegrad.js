@@ -123,7 +123,7 @@ class Exp {
 	}
 
 	backward(a, prev_grad) {
-		return nj.dot(a.selection, prev_grad)
+		return [nj.exp(a.selection)]
 	}
 }
 
@@ -134,7 +134,7 @@ class Negative {
 	}
 
 	backward(a, prev_grad) {
-		return nj.negative(prev_grad)
+		return [nj.negative(prev_grad)]
 	}
 }
 
@@ -146,7 +146,7 @@ class Log {
 
 	backward(a, prev_grad) {
 		var grad = a.pow(-1)
-		return nj.multiply(grad, prev_grad)
+		return [nj.multiply(grad, prev_grad)]
 	}
 }
 
