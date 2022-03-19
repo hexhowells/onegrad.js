@@ -25,6 +25,7 @@ Tensor.prototype.backward = function(prev_grad=null) {
 
 	if (this.parents.length != 0){
 		var parent_grads = this.op.backward(...this.parents, this.grad)
+		console.assert(Array.isArray(parent_grads), `Error: an op.backward() is not returning an Array`)
 
 		for (let i=0; i < parent_grads.length; i++){
 			if(this.parents[i].grad){
