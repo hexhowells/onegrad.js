@@ -1,4 +1,6 @@
 
+var nj = require('numjs')
+
 class OnehotEncoder {
     constructor(vocabSize, mapping) {
         this.vocabSize = vocabSize
@@ -24,7 +26,16 @@ function randomChoice(arr, p, count=1) {
     return Array.from(Array(count), _randomChoice.bind(null, arr, p));
 }
 
+// create 2d tensor with flattened input as diagonal
+function diagFlat(x) {
+    var x = x.flatten()
+    var id = nj.identity(x.shape[0])
+    var xTensor = nj.stack(Array(x.shape[0]).fill(x))
+    return nj.multiply(xTensor, id)
+}
+
 module.exports = {
     OnehotEncoder,
-    randomChoice
+    randomChoice,
+    diagFlat
     }
