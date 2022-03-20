@@ -60,7 +60,8 @@ class RNN {
 			x = x.add(this.bias);
 
 		x = onegrad.tanh(x)
-		this.prevOutput = x
+		this.prevOutput = x.identity()
+		this.prevOutput.parents = []
 		return x
 	}
 
