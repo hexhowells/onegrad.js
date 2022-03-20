@@ -32,16 +32,16 @@ class Model extends nn.Module {
 // hyperparameters
 var hp = {
 	'lr': 0.001,
-	'sampleSize': 16,
+	'seqLength': 16,
 	'iterations': 500_000,
-	'bs': 8
+	'bs': 1
 }
 
 // used for randomChar
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 // dataset loader
-var loader = new Loader("../../datasets/names.txt", hp.sampleSize)
+var loader = new Loader("../../datasets/names.txt", hp.seqLength)
 console.log(`Dataset contains ${loader.data.length} characters and ${loader.vocabSize} unique tokens\n`)
 
 // objects for training
@@ -49,6 +49,7 @@ var model = new Model(loader.vocabSize, loader.vocabSize)
 var lossfn = new nn.MSE()
 var opt = new optim.Adam(model.parameters(), lr=hp.lr, bs=hp.bs)
 var encoder = new utils.OnehotEncoder(loader.vocabSize, loader.charsToIdx)
+var smoothLoss = -Math.log(1 / loader.vocabSize) * hp.seqLength
 
 
 // train network
@@ -63,13 +64,14 @@ for (let counter=0; counter<hp.iterations; counter++){
 		
 		var nextInput = onegrad.tensor([inputs[i+1]])
 		var loss = lossfn.compute(out, nextInput)
+		smoothLoss = smoothLoss * 0.999 + loss.sum().tolist()[0] * 0.001
 
 		losses.push(loss)
 	}
 
 	if (counter%1000 == 0) {
 		console.log(`Iter ${counter}`)
-		console.log("loss: ", loss.sum().tolist())
+		console.log("loss: ", smoothLoss)
 		sample()
 	}
 	if (counter%5000 == 0 && counter != 0) {
@@ -94,8 +96,8 @@ return alphabet.charAt(Math.floor(Math.random() * 26));
 }
 
 // generate sample names from network
-function sample(sampleSize=10) {
-	for (let i=0; i<sampleSize; i++) {
+function sample(seqLength=10) {
+	for (let i=0; i<seqLength; i++) {
 		var randChar = randomChar()
 		var encodedChar = encoder.encode(randChar)
 		var inputTensor = onegrad.tensor([encodedChar])
