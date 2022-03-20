@@ -191,8 +191,7 @@ tensor([-0.025673934, 4])
 tensor([-1.5448988171423363, 4])
 
 > var b = onegrad.tensor([[1.3, 5.1, 2.2, 0.7, 1.1]]);
-> var softmax = new nn.Softmax();
-> softmax.compute(b)
+> onegrad.softmax(b)
 tensor([
   0.02019046473258069,
   0.9025376890165726,
