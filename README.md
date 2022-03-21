@@ -258,6 +258,13 @@ tensor([0.7826402419856238])
 
 ```
 
+### Save and Load Models
+Models can be saved and loaded from a .json file. requires the model filepath to be specified.
+```javascript
+> model.save('model.json');
+> model.load('model.json');
+```
+
 ## Loss Functions
 Onegrad supports a few of the basic loss functions.
 
@@ -301,7 +308,7 @@ Parameters of ```Adam```
 > opt.zeroGrad()
 ```
 
-#### Gradient Decay
+### Gradient Decay
 Onegrad supports a basic learning rate scheduler which decays the learning rate every *n* steps.
 
 Parameters
