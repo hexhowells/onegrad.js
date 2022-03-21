@@ -79,6 +79,85 @@ class RNN {
 	}
 }
 
+class GRU {
+	constructor(inDim, outDim) {
+		this.inDim = inDim;
+		this.outDim = outDim;
+		
+		this.one = onegrad.ones([1])
+
+		var wz_arr = nj.random([outDim, inDim]).subtract(0.5)
+		var uz_arr = nj.random([outDim, outDim]).subtract(0.5)
+
+		var wr_arr = nj.random([outDim, inDim]).subtract(0.5)
+		var ur_arr = nj.random([outDim, outDim]).subtract(0.5)
+
+		var wh_arr = nj.random([outDim, inDim]).subtract(0.5)
+		var uh_arr = nj.random([outDim, outDim]).subtract(0.5)
+
+		var wy_arr = nj.random([outDim, outDim]).subtract(0.5)
+
+		this.wz = onegrad.tensor(wz_arr)
+		this.uz = onegrad.tensor(uz_arr)
+
+		this.wr = onegrad.tensor(wr_arr)
+		this.ur = onegrad.tensor(ur_arr)
+
+		this.wh = onegrad.tensor(wh_arr)
+		this.uh = onegrad.tensor(uh_arr)
+
+		this.wy = onegrad.tensor(wy_arr)
+		
+		this.prev = onegrad.zeros([1, outDim])
+	}
+
+	forward(x) {
+		// reset gates
+		var zt = onegrad.sigmoid( this.wz.dot(x).add(this.uz.dot(this.prev)) )
+		var rt = onegrad.sigmoid( this.wr.dot(x).add(this.ur.dot(this.prev)) )
+
+		// hidden units
+		var hHatTemp = rt.mul(this.prev)
+		
+		var hHat = onegrad.tanh( this.wh.dot(x).add(this.uh.dot(hHatTemp)) )
+
+		var hTemp = zt.negative().add(this.one)
+		var h = zt.mul(this.prev).add(hTemp.mul(hHat))
+
+		// output unit
+		var y = this.wy.dot(h)
+		y = onegrad.sigmoid(y)
+		
+		this.prev = y.identity()
+		this.prev.parents = []
+
+		return y
+	}
+
+	parameters() {
+		return [
+			this.wz,
+			this.uz,
+			this.wr,
+			this.uz,
+			this.wh,
+			this.uz,
+			this.wy
+		]
+	}
+
+	resetPrev() {
+		this.prev = onegrad.zeros([1, this.outDim])
+		this.wz.parents = []
+		this.uz.parents = []
+		this.wr.parents = []
+		this.uz.parents = []
+		this.wh.parents = []
+		this.uz.parents = []
+		this.wy.parents = []
+	}
+}
+
 //
 // Model Parent Class
 //
@@ -167,6 +246,7 @@ class CrossEntropyLoss {
 module.exports = {
 	Linear,
 	RNN,
+	GRU,
 	Module,
 	MSE,
 	MAE,
