@@ -17,7 +17,7 @@ class Optim {
 
 class SGD extends Optim {
 
-	constructor(params, lr, bs=1){
+	constructor(params, lr=0.01, bs=1){
 		super(params)
 		this.lr = lr;
 		this.bs = bs;
