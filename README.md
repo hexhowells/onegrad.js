@@ -201,6 +201,35 @@ tensor([
 ])
 ```
 
+## Layer Abstractions
+Onegrad supports some layer abstractions to help make building networks easier.
+All layers have 3 parameters:
+- ```inDim``` number of input nodes
+- ```outDim``` number of output nodes
+- ```useBias``` bias toggle (true by default)
+
+**Note:** recurrent layers requires a call to ```.resetPrev()``` to reset the previous hidden output.
+```javascript
+> var x = onegrad.randn([1, 10]);
+
+> var denselayer = new nn.Linear(10, 1, false);
+> denseLayer.forward(x)
+tensor([0.4736675307891193])
+
+> var rnnLayer = new nn.RNN(10, 1, false);
+> rnnLayer.forward(x)
+tensor([0.06440360973284968])
+
+// reset previous hidden output after each complete forward pass on a sequence
+> rnnLayer.resetPrev()
+```
+The parameters of each layer can be accessed using the ```.parameters()``` function.
+```javascript
+> var rnnLayer = new nn.RNN(10, 1, true);
+> rnnLayer.parameters()
+list([tensor([...]), tensor([...]), tensor([...])])
+```
+
 ### TODO
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
