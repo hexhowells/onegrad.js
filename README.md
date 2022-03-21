@@ -201,6 +201,123 @@ tensor([
 ])
 ```
 
+## Layer Abstractions
+Onegrad supports some layer abstractions to help make building networks easier.
+All layers have 3 parameters:
+- ```inDim``` number of input nodes
+- ```outDim``` number of output nodes
+- ```useBias``` bias toggle (true by default)
+
+**Note:** recurrent layers requires a call to ```.resetPrev()``` to reset the previous hidden output.
+```javascript
+> var x = onegrad.randn([1, 10]);
+
+> var denselayer = new nn.Linear(10, 1, false);
+> denseLayer.forward(x)
+tensor([0.4736675307891193])
+
+> var rnnLayer = new nn.RNN(10, 1, false);
+> rnnLayer.forward(x)
+tensor([0.06440360973284968])
+
+// reset previous hidden output after each complete forward pass on a sequence
+> rnnLayer.resetPrev()
+```
+The parameters of each layer can be accessed using the ```.parameters()``` function.
+```javascript
+> var rnnLayer = new nn.RNN(10, 1, true);
+> rnnLayer.parameters()
+list([tensor([...]), tensor([...]), tensor([...])])
+```
+
+## Modules
+Modules can be used to define entire models inside a class by extending from ```nn.Modules```.
+Defined models requires ```constructor()``` for defining the model layers and ```forward(x)``` for specifying how the layers interact.
+
+Model layers need to be placed in an array called ```layers``` (required for the framework to extract model parameters)
+```javascript
+> class Model extends nn.Module {
+    constructor(inDim, outDim) {
+      super()
+      this.layers = [
+          new nn.Linear(inDim, 100),
+          new nn.Linear(100, outDim)
+      ]
+    }
+    
+    forward(x) {
+      x = onegrad.sigmoid(this.layers[0].forward(x))
+      x = onegrad.sigmoid(this.layers[1].forward(x))
+      return x
+    }
+  }
+> var model = new Model(10, 1);
+> var x = onegrad.randn([1, 10]);
+> model.forward(x)
+tensor([0.7826402419856238])
+
+```
+
+## Loss Functions
+Onegrad supports a few of the basic loss functions.
+
+To compute the loss call ```.compute(output, target)``` on the loss function.
+```javascript
+> var x = onegrad.randn([1, 10]);
+> var tar = onegrad.randn([1, 10]);
+
+> var lossfn = new nn.MSE();
+> lossfn.compute(x, tar)
+tensor([0.0270..., 0.2257..., 0.0173..., 0.4238..., 0.2901...])
+
+> var lossfn = new nn.MAE();
+> lossfn.compute(x, tar)
+tensor([0.1082..., 0.0471..., 0.4704..., 0.4681..., 0.0965...])
+```
+
+## Optimisers
+Onegrad currently supports the SGD and Adam optimisers.
+
+Parameters of ```SGD```
+- ```params``` parameters to update
+- ```lr``` learning rate
+- ```bs``` batch size
+
+Parameters of ```Adam```
+- ```params``` parameters to update
+- ```lr``` learning rate (default 0.001)
+- ```bs``` batch size
+- ```b1``` beta 1 (default 0.9)
+- ```b2``` beta 2 (default 0.999)
+- ```eps``` epsilon (default 1e-8)
+
+```javascript
+> var opt = new optim.SGD(model.parameters(), lr=0.01);
+
+// update model weights
+> opt.step()
+
+// reset parameter gradients
+> opt.zeroGrad()
+```
+
+#### Gradient Decay
+Onegrad supports a basic learning rate scheduler which decays the learning rate every *n* steps.
+
+Parameters
+- ```optim``` optimiser to schedule
+- ```stepSize``` how many steps to decay on (default 30)
+- ```gamma``` how much to decay the gradient (default 0.1)
+- ```lastEpoch``` the index of last epoch (default -1)
+
+```javascript
+> var opt = new optim.SGD(model.parameters(), lr=0.01);
+> var scheduler = new optim.StepLR(opt);
+
+// step scheduler every iteration
+scheduler.step()
+```
+
 ### TODO
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
