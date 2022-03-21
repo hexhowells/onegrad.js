@@ -82,7 +82,7 @@ class StepLR {
 
 	step() {
 		this.lastEpoch += 1
-		if (this.lastEpoch % stepSize == 0 && this.lastEpoch != 0) {
+		if (this.lastEpoch % this.stepSize == 0 && this.lastEpoch != 0) {
 			this.opt.lr *= this.gamma
 		}
 	}
