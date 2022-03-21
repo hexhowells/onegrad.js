@@ -280,8 +280,8 @@ Onegrad currently supports the SGD and Adam optimisers.
 
 Parameters of ```SGD```
 - ```params``` parameters to update
-- ```lr``` learning rate
-- ```bs``` batch size
+- ```lr``` learning rate (default 0.01)
+- ```bs``` batch size (default 1)
 
 Parameters of ```Adam```
 - ```params``` parameters to update
