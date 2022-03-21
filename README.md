@@ -258,6 +258,23 @@ tensor([0.7826402419856238])
 
 ```
 
+## Loss Functions
+Onegrad supports a few of the basic loss functions.
+
+To compute the loss call ```.compute(output, target)``` on the loss function.
+```javascript
+> var x = onegrad.randn([1, 10]);
+> var tar = onegrad.randn([1, 10]);
+
+> var lossfn = new nn.MSE();
+> lossfn.compute(x, tar)
+tensor([0.0270..., 0.2257..., 0.0173..., 0.4238..., 0.2901...])
+
+> var lossfn = new nn.MAE();
+> lossfn.compute(x, tar)
+tensor([0.1082..., 0.0471..., 0.4704..., 0.4681..., 0.0965...])
+```
+
 ### TODO
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
