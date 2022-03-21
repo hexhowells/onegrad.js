@@ -275,6 +275,49 @@ tensor([0.0270..., 0.2257..., 0.0173..., 0.4238..., 0.2901...])
 tensor([0.1082..., 0.0471..., 0.4704..., 0.4681..., 0.0965...])
 ```
 
+## Optimisers
+Onegrad currently supports the SGD and Adam optimisers.
+
+Parameters of ```SGD```
+- ```params``` parameters to update
+- ```lr``` learning rate
+- ```bs``` batch size
+
+Parameters of ```Adam```
+- ```params``` parameters to update
+- ```lr``` learning rate (default 0.001)
+- ```bs``` batch size
+- ```b1``` beta 1 (default 0.9)
+- ```b2``` beta 2 (default 0.999)
+- ```eps``` epsilon (default 1e-8)
+
+```javascript
+> var opt = new optim.SGD(model.parameters(), lr=0.01);
+
+// update model weights
+> opt.step()
+
+// reset parameter gradients
+> opt.zeroGrad()
+```
+
+#### Gradient Decay
+Onegrad supports a basic learning rate scheduler which decays the learning rate every *n* steps.
+
+Parameters
+- ```optim``` optimiser to schedule
+- ```stepSize``` how many steps to decay on (default 30)
+- ```gamma``` how much to decay the gradient (default 0.1)
+- ```lastEpoch``` the index of last epoch (default -1)
+
+```javascript
+> var opt = new optim.SGD(model.parameters(), lr=0.01);
+> var scheduler = new optim.StepLR(opt);
+
+// step scheduler every iteration
+scheduler.step()
+```
+
 ### TODO
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
