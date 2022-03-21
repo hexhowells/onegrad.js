@@ -230,6 +230,34 @@ The parameters of each layer can be accessed using the ```.parameters()``` funct
 list([tensor([...]), tensor([...]), tensor([...])])
 ```
 
+## Modules
+Modules can be used to define entire models inside a class by extending from ```nn.Modules```.
+Defined models requires ```constructor()``` for defining the model layers and ```forward(x)``` for specifying how the layers interact.
+
+Model layers need to be placed in an array called ```layers``` (required for the framework to extract model parameters)
+```javascript
+> class Model extends nn.Module {
+    constructor(inDim, outDim) {
+      super()
+      this.layers = [
+          new nn.Linear(inDim, 100),
+          new nn.Linear(100, outDim)
+      ]
+    }
+    
+    forward(x) {
+      x = onegrad.sigmoid(this.layers[0].forward(x))
+      x = onegrad.sigmoid(this.layers[1].forward(x))
+      return x
+    }
+  }
+> var model = new Model(10, 1);
+> var x = onegrad.randn([1, 10]);
+> model.forward(x)
+tensor([0.7826402419856238])
+
+```
+
 ### TODO
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
