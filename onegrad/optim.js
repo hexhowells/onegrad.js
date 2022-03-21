@@ -73,7 +73,7 @@ class Adam extends Optim {
 }
 
 class StepLR {
-	constructor(optimiser, stepSize=30, gamma=0.1, lastEpoch){
+	constructor(optimiser, stepSize=30, gamma=0.1, lastEpoch=-1){
 		this.opt = optimiser;
 		this.stepSize = stepSize;
 		this.gamma = gamma;
