@@ -5,3 +5,6 @@ datasets/mnist/mnist_test.csv
 datasets/mnist/mnist_train.csv
 models/
 examples/rnn/generateNames.js
+datasets/shakespear.txt
+examples/rnn/rnn.json
+
