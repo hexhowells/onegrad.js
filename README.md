@@ -334,4 +334,5 @@ scheduler.step()
 - add more loss functions (CategoricalCrossEntropy, NLLLoss)
 - add more nn abstractions (LSTM, GRU, Conv2d)
 - add more examples
+- add visualisations for the DAG
 - webpack source code
