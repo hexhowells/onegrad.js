@@ -24,8 +24,8 @@ for (let epoch=0; epoch<epochs; epoch++){
 		var input_tensor = new onegrad.tensor([inputs[i]]);
 		var target_tensor = new onegrad.tensor([[targets[i]]]);
 
-		var output = onegrad.sigmoid(layer.forward(input_tensor.transpose()));
-		var loss = lossfn.compute(target_tensor.transpose(), output);
+		var output = onegrad.sigmoid(layer.forward(input_tensor));
+		var loss = lossfn.compute(target_tensor, output);
 		
 		console.log("out: ", output.tolist());
 	
@@ -37,5 +37,5 @@ for (let epoch=0; epoch<epochs; epoch++){
 
 // testing
 var test_input = new onegrad.tensor([[1,0,0]]);
-var output = onegrad.sigmoid(layer.forward(test_input.transpose()));
+var output = onegrad.sigmoid(layer.forward(test_input));
 console.log("\ntest input [1,0,0] -> ", output.tolist());
