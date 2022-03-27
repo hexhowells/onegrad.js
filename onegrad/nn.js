@@ -7,7 +7,7 @@ var onegrad = require("./tensor.js")
 // NN Layers
 //
 class Linear {
-	constructor(inDim, outDim, bias=true) {
+	constructor(inDim, outDim, bias=false) {
 		this.inDim = inDim;
 		this.outDim = outDim;
 		this.useBias = bias
@@ -35,7 +35,7 @@ class Linear {
 
 
 class RNN {
-	constructor(inDim, outDim, bias=true) {
+	constructor(inDim, outDim, bias=false) {
 		this.inDim = inDim;
 		this.outDim = outDim;
 		this.useBias = bias
