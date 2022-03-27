@@ -331,8 +331,8 @@ scheduler.step()
 - ~~add module class for defining models~~
 - ~~add more activation functions (LeakyReLU, ReLU6, SELU)~~
 - ~~add ability to save and load model weights~~
+- ~~add visualisations for the DAG~~
 - add more loss functions (CategoricalCrossEntropy, NLLLoss)
 - add more nn abstractions (LSTM, GRU, Conv2d)
 - add more examples
-- add visualisations for the DAG
 - webpack source code
