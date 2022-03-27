@@ -1,8 +1,8 @@
 var onegrad = require("./../onegrad/tensor.js")
 
 var a = new onegrad.randn([5,5]);
-var b = new onegrad.randn([5,1]);
-var c = new onegrad.randn([5,1]);
+var b = new onegrad.randn([1,5]);
+var c = new onegrad.randn([1,5]);
 
 function showParents(parents) {
 	for (const p of parents){
