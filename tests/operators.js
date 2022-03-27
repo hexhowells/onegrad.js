@@ -38,8 +38,7 @@ console.log("\nActivation Functions")
 console.log("\trelu (c): ", onegrad.relu(c).tolist());
 console.log("\tsigmoid (c): ", onegrad.sigmoid(c).tolist());
 console.log("\ttanh (c): ", onegrad.tanh(c).tolist());
-var softmax = new nn.Softmax()
-console.log("\tSoftmax (f): ", softmax.compute(f).tolist())
+console.log("\tSoftmax (f): ", onegrad.softmax(f).tolist())
 console.log("\trelu6 (c): ", onegrad.relu6(c).tolist());
 console.log("\tleakyRelu (c): ", onegrad.leakyRelu(c).tolist());
 console.log("\tselu (c): ", onegrad.selu(c).tolist());
