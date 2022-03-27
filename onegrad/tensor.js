@@ -1,6 +1,7 @@
 "use strict"
 var nj = require("numjs");
 var ops = require("./ops.js");
+var tensorID = 0
 
 
 var Tensor = function Tensor(value, op=null, parents=[], requiresGrad=false) {
@@ -12,11 +13,29 @@ var Tensor = function Tensor(value, op=null, parents=[], requiresGrad=false) {
 	this.parents = [...parents]
 	this.shape = this.selection.shape
 	this.requiresGrad = requiresGrad
+	this.tensorID = tensorID
+	tensorID += 1
 }
 
 Tensor.prototype.grad = this.grad;
 
 Tensor.prototype.shape = this.shape;
+
+Tensor.prototype.constructDAG = function(graph={nodes:[], edges:[]}) {
+	var nodeID = this.tensorID
+	var opName = (this.op) ? (this.op.constructor.name) : 'None'
+
+	if (!graph.nodes.includes(nodeID))
+		graph.nodes.push(nodeID)
+
+	if (this.parents.length != 0) {
+		for (var parent of this.parents) {
+			graph.edges.push({from:parent.tensorID, to:nodeID, op:opName})
+			graph = parent.constructDAG(graph)
+		}
+	}
+	return graph
+}
 
 Tensor.prototype.backward = function(prev_grad=null) {
 	if (!prev_grad || this.grad == null) {
