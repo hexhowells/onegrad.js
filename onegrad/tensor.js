@@ -25,12 +25,12 @@ Tensor.prototype.constructDAG = function(graph={nodes:[], edges:[]}) {
 	var nodeID = this.tensorID
 	var opName = (this.op) ? (this.op.constructor.name) : 'None'
 
-	if (!graph.nodes.includes(nodeID))
-		graph.nodes.push(nodeID)
+	if (!( graph.nodes.some(el => el.id == nodeID) ))
+		graph.nodes.push({id:nodeID, op:opName})
 
 	if (this.parents.length != 0) {
 		for (var parent of this.parents) {
-			graph.edges.push({from:parent.tensorID, to:nodeID, op:opName})
+			graph.edges.push({from:parent.tensorID, to:nodeID})
 			graph = parent.constructDAG(graph)
 		}
 	}
