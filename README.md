@@ -325,6 +325,41 @@ Parameters
 scheduler.step()
 ```
 
+## Visualisations
+Onegrad supports the ability to visualise the computational graph of a model. Each node in the graph corresponds to a tensor which contains information about its creation, shape, etc.
+
+To visualise the model first construct the graph by calling `.constructDAG` on the last tensor, then pass the DAG to `vis.visualise(DAG)`. The graph of the model will then be visable at localhost:5000.
+
+**Note:** A forward pass is required to compute the computational graph which is to be displayed.
+```javascript
+// Compute forward pass through model
+> var out = model.forward(x);
+> var loss = lossfn.forward(out);
+
+// Create computational graph and visualise
+> var dag = loss.constructDAG();
+> vis.visualise(dag)
+'View graph at http://localhost:5000'
+```
+
+### Node labelling
+By default tensors are given generic names, however individual tensors can be labelled which will be displayed on the graph instead, this often makes for easier interpretation and is recommended.
+
+**Note:** layers created with nn abstractions will be labelled by default to indicate the tensors purpose and which layer it belongs to.
+```javascript
+// Add label on tensor creation
+> var a = onegrad.tensor([1, 2, 3], {label:"input"});
+
+// Add label after tensor creation
+> var b = onegrad.tensor([4, 5, 6]);
+> b.label = "second input";
+```
+
+The following is an example visualisation on a 2 layer feed forward network, full code sample can be found in `tests/visualise.js`
+<p align="left">
+  <img src="https://github.com/hexhowells/onegrad.js/blob/main/examples/exampleGraph.png" width=40%>
+</p>
+
 ### TODO
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
