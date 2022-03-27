@@ -14,12 +14,13 @@ function createGraph(graph) {
   var edges = new vis.DataSet();
 
   for (var node of graph.nodes) {
-    console.log(node.label)
     var tensorName = (node.label) ? node.label : `Tensor ${node.id}`
+    var nodeColor = (node.label) ? 'rgba(140, 188, 252, 1)' : 'rgba(185, 220, 252, 1)'
     nodes.add({
       id: node.id, 
-      label: `<b>${tensorName}</b>\nop: ${node.op}`, 
-      shape:'box'
+      label: `<b>${tensorName}</b>\nop: ${node.op}\nshape: ${node.shape}\nrequires grad: ${node.requiresGrad}`, 
+      shape:'box',
+      color: {background: nodeColor},
     });
   }
 
@@ -39,7 +40,11 @@ function showGraph(nodes, edges) {
     };
     var options = {
       physics: {
-        enabled: false
+        stabilizations: false,
+        enabled: true,
+        hierarchicalRepulsion: {
+          avoidOverlap: 1,
+        }
       },
       layout: {
         hierarchical: {
@@ -52,6 +57,9 @@ function showGraph(nodes, edges) {
         font: {
           align: 'left',
           multi: 'html'
+        },
+        shapeProperties: {
+          interpolation: false    // 'true' for intensive zooming
         }
         /*fixed: {
           y: true,
@@ -60,4 +68,8 @@ function showGraph(nodes, edges) {
       }
     };
     var network = new vis.Network(container, data, options);
+
+    network.on("stabilizationIterationsDone", function () {
+      network.setOptions( { physics: false } );
+  });
 }
