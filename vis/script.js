@@ -14,8 +14,13 @@ function createGraph(graph) {
   var edges = new vis.DataSet();
 
   for (var node of graph.nodes) {
-    console.log(node)
-    nodes.add({id: node.id, label: `<b>Tensor ${node.id}</b>\nop: ${node.op}`, shape:'box'});
+    console.log(node.label)
+    var tensorName = (node.label) ? node.label : `Tensor ${node.id}`
+    nodes.add({
+      id: node.id, 
+      label: `<b>${tensorName}</b>\nop: ${node.op}`, 
+      shape:'box'
+    });
   }
 
   for (var edge of graph.edges) {
