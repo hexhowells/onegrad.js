@@ -12,9 +12,9 @@ class Linear {
 		this.outDim = outDim;
 		this.useBias = bias
 		var nj_arr = nj.random([outDim, inDim]).subtract(0.5)
-		this.weight = onegrad.tensor(nj_arr)
+		this.weight = onegrad.tensor(nj_arr, {requiresGrad:true})
 		if (this.useBias)
-			this.bias = onegrad.zeros([outDim, 1], true)
+			this.bias = onegrad.zeros([outDim, 1], {requiresGrad:true})
 	}
 
 	forward(x) {
@@ -41,7 +41,7 @@ class RNN {
 		this.useBias = bias
 
 		if (this.useBias)
-			this.bias = onegrad.zeros([outDim, 1], true)
+			this.bias = onegrad.zeros([outDim, 1], {requiresGrad:true})
 
 		var w_arr = nj.random([outDim, inDim]).subtract(0.5)
 		var hw_arr = nj.random([outDim, outDim]).subtract(0.5)
