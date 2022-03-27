@@ -12,9 +12,9 @@ class Linear {
 		this.outDim = outDim;
 		this.useBias = bias
 		var nj_arr = nj.random([outDim, inDim]).subtract(0.5)
-		this.weight = onegrad.tensor(nj_arr, {requiresGrad:true})
+		this.weight = onegrad.tensor(nj_arr, {label:"Linear: weight"})
 		if (this.useBias)
-			this.bias = onegrad.zeros([outDim, 1], {requiresGrad:true})
+			this.bias = onegrad.zeros([outDim, 1], {label:"Linear: bias"})
 	}
 
 	forward(x) {
@@ -41,14 +41,14 @@ class RNN {
 		this.useBias = bias
 
 		if (this.useBias)
-			this.bias = onegrad.zeros([outDim, 1], {requiresGrad:true})
+			this.bias = onegrad.zeros([outDim, 1], {label:"RNN: bias"})
 
 		var w_arr = nj.random([outDim, inDim]).subtract(0.5)
 		var hw_arr = nj.random([outDim, outDim]).subtract(0.5)
 
-		this.weight = onegrad.tensor(w_arr)
-		this.hiddenWeight = onegrad.tensor(hw_arr)
-		this.prevOutput = onegrad.zeros([1, outDim])
+		this.weight = onegrad.tensor(w_arr, {label:"RNN: weight"})
+		this.hiddenWeight = onegrad.tensor(hw_arr, {label:"RNN: hidden weight"})
+		this.prevOutput = onegrad.zeros([1, outDim], {label:"RNN: prev"})
 	}
 
 	forward(x) {
@@ -97,18 +97,18 @@ class GRU {
 
 		var wy_arr = nj.random([outDim, outDim]).subtract(0.5)
 
-		this.wz = onegrad.tensor(wz_arr)
-		this.uz = onegrad.tensor(uz_arr)
+		this.wz = onegrad.tensor(wz_arr, {label:"GRU: wz"})
+		this.uz = onegrad.tensor(uz_arr, {label:"GRU: uz"})
 
-		this.wr = onegrad.tensor(wr_arr)
-		this.ur = onegrad.tensor(ur_arr)
+		this.wr = onegrad.tensor(wr_arr, {label:"GRU: wr"})
+		this.ur = onegrad.tensor(ur_arr, {label:"GRU: ur"})
 
-		this.wh = onegrad.tensor(wh_arr)
-		this.uh = onegrad.tensor(uh_arr)
+		this.wh = onegrad.tensor(wh_arr, {label:"GRU: wh"})
+		this.uh = onegrad.tensor(uh_arr, {label:"GRU: uh"})
 
-		this.wy = onegrad.tensor(wy_arr)
+		this.wy = onegrad.tensor(wy_arr, {label:"GRU: wy"})
 		
-		this.prev = onegrad.zeros([1, outDim])
+		this.prev = onegrad.zeros([1, outDim], {label:"GRU: prev"})
 	}
 
 	forward(x) {
@@ -129,7 +129,7 @@ class GRU {
 		y = onegrad.sigmoid(y)
 		
 		this.prev = y.identity()
-		this.prev.parents = []
+		//this.prev.parents = []
 
 		return y
 	}
