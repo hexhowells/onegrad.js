@@ -143,27 +143,33 @@ Tensor.prototype.retainGrad = function() {
 }
 
 
-function tensor(data, params={requiresGrad:true}) {
+function tensor(data, params={}) {
+	Object.assign(params, {requiresGrad: true});
 	return new Tensor(data, params);
 }
 
-function ones(shape, params={requiresGrad:true}) {
+function ones(shape, params={}) {
+	Object.assign(params, {requiresGrad: true});
 	return new Tensor(nj.ones(shape), params);
 }
 
-function zeros(shape, params={requiresGrad:true}) {
+function zeros(shape, params={}) {
+	Object.assign(params, {requiresGrad: true});
 	return new Tensor(nj.zeros(shape), params);
 }
 
-function randn(shape, params={requiresGrad:true}) {
+function randn(shape, params={}) {
+	Object.assign(params, {requiresGrad: true});
 	return new Tensor(nj.random(shape), params);
 }
 
-function arange(args, params={requiresGrad:true}) {
+function arange(args, params={}) {
+	Object.assign(params, {requiresGrad: true});
 	return new Tensor(nj.arange(...args), params);
 }
 
-function eye(shape, params={requiresGrad:true}) {
+function eye(shape, params={}) {
+	Object.assign(params, {requiresGrad: true});
 	return new Tensor(nj.identity(shape), params);
 }
 
