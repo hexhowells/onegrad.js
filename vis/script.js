@@ -14,11 +14,12 @@ function createGraph(graph) {
   var edges = new vis.DataSet();
 
   for (var node of graph.nodes) {
-    nodes.add({id: node, label: `Tensor ${node}`});
+    console.log(node)
+    nodes.add({id: node.id, label: `<b>Tensor ${node.id}</b>\nop: ${node.op}`, shape:'box'});
   }
 
   for (var edge of graph.edges) {
-    edges.add({from: edge.from, to: edge.to, label: edge.op, arrows: 'to'});
+    edges.add({from: edge.from, to: edge.to, arrows: 'to'});
   }
 
   return [nodes, edges]
@@ -42,10 +43,15 @@ function showGraph(nodes, edges) {
         }
       },
       nodes: {
-        fixed: {
+        margin: 10,
+        font: {
+          align: 'left',
+          multi: 'html'
+        }
+        /*fixed: {
           y: true,
           x: true
-        }
+        }*/
       }
     };
     var network = new vis.Network(container, data, options);
