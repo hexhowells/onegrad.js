@@ -355,7 +355,7 @@ By default tensors are given generic names, however individual tensors can be la
 > b.label = "second input";
 ```
 
-The following is an example visualisation on a 2 layer feed forward network, full code sample can be found in `tests/visualise.js`
+The following is an example visualisation on a 2 layer feed forward network, the code to generate this graph can be found at `tests/visualise.js`.
 <p align="left">
   <img src="https://github.com/hexhowells/onegrad.js/blob/main/examples/exampleGraph.png" width=40%>
 </p>
