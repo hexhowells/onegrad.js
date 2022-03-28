@@ -147,6 +147,10 @@ Tensor.prototype.retainGrad = function() {
 	this.requiresGrad = true
 }
 
+Tensor.prototype.detach() = function() {
+	this.parents = []
+}
+
 
 function tensor(data, params={}) {
 	Object.assign(params, {requiresGrad: true});
