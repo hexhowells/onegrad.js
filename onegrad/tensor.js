@@ -147,7 +147,7 @@ Tensor.prototype.retainGrad = function() {
 	this.requiresGrad = true
 }
 
-Tensor.prototype.detach() = function() {
+Tensor.prototype.detach = function() {
 	this.parents = []
 }
 
