@@ -28,14 +28,17 @@ Tensor.prototype.constructDAG = function(graph={nodes:[], edges:[]}) {
 	var nodeID = this.tensorID
 	var opName = (this.op) ? (this.op.constructor.name) : 'None'
 
+	// if node not already visited
 	if (!( graph.nodes.some(el => el.id == nodeID) ))
 		graph.nodes.push({
 			id:nodeID, 
 			op:opName, 
 			label:this.label, 
 			shape:this.shape, 
-			requiresGrad:this.requiresGrad})
+			requiresGrad:this.requiresGrad
+		})
 
+	// iterate over parent nodes
 	if (this.parents.length != 0) {
 		for (var parent of this.parents) {
 			graph.edges.push({from:parent.tensorID, to:nodeID})
@@ -45,28 +48,45 @@ Tensor.prototype.constructDAG = function(graph={nodes:[], edges:[]}) {
 	return graph
 }
 
-Tensor.prototype.backward = function(prev_grad=null) {
-	if (!prev_grad || this.grad == null) {
-		this.grad = nj.ones(this.selection.shape)
-	}
+Tensor.prototype.findAllNodes = function(nodes) {
+	if (!nodes.includes(this)) {
+		nodes.push(this)
 
-	if (this.parents.length != 0){
-		var parent_grads = this.op.backward(...this.parents, this.grad)
-		console.assert(Array.isArray(parent_grads), `Error: an op.backward() is not returning an Array`)
-
-		for (let i=0; i < parent_grads.length; i++){
-			if(this.parents[i].grad){
-				this.parents[i].grad = nj.add(this.parents[i].grad, parent_grads[i])
-			} else{
-				this.parents[i].grad = parent_grads[i]
+		if (this.parents.length != 0) {
+			for (var parent of this.parents) {
+				nodes = parent.findAllNodes(nodes)
 			}
 		}
+	}
+	return nodes
+}
 
-		for (const node of this.parents) {
-			node.backward(this.grad)
+
+Tensor.prototype.backward = function() {
+	var nodes = this.findAllNodes([])
+
+	for (var node of nodes) {
+		if (node.grad == null) {
+			node.grad = nj.ones(node.selection.shape)
+		}
+
+		if (node.parents.length != 0){
+			var parent_grads = node.op.backward(...node.parents, node.grad)
+			console.assert(Array.isArray(parent_grads), `Error: an op.backward() is not returning an Array`)
+
+			for (let i=0; i < parent_grads.length; i++){
+				if(node.parents[i].grad){
+					node.parents[i].grad = nj.add(node.parents[i].grad, parent_grads[i])
+				} else{
+					node.parents[i].grad = parent_grads[i]
+				}
+			}
 		}
 	}
-	if (this.requiresGrad == false) {this.grad = null}
+
+	for (var node of nodes) {
+		if (node.requiresGrad == false) {node.grad = null}
+	}
 }
 
 Tensor.prototype.tolist = function() {
