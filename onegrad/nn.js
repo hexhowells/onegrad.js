@@ -61,7 +61,7 @@ class RNN {
 
 		x = onegrad.tanh(x)
 		this.prevOutput = x.identity()
-		this.prevOutput.parents = []
+		//this.prevOutput.parents = []
 		return x
 	}
 
@@ -208,7 +208,7 @@ class Module {
 //
 class MSE {
 	constructor() {
-		this.power = new onegrad.tensor([2], false);
+		this.power = new onegrad.tensor([2], {requiresGrad: false});
 	}
 
 	compute(y, yHat) {
@@ -218,8 +218,8 @@ class MSE {
 
 class MAE {
 	constructor() {
-		this.power = new onegrad.tensor([2], false);
-		this.half = new onegrad.tensor([0.5], false)
+		this.power = new onegrad.tensor([2], {requiresGrad: false});
+		this.half = new onegrad.tensor([0.5], {requiresGrad: false})
 	}
 
 	compute(y, yHat) {
@@ -229,7 +229,7 @@ class MAE {
 
 class CrossEntropyLoss {
 	constructor() {
-		this.one = onegrad.tensor([1]);
+		this.one = onegrad.tensor([1], {requiresGrad: false});
 	}
 
 	compute(y, yHat) {
