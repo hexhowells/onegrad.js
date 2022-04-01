@@ -279,7 +279,7 @@ class Softmax {
 		denom = denom ** -1
 		var arr =  x.exp().transpose().dot(denom)
 		this.out = arr
-		//arr = arr.reshape([1, arr.shape[0]])
+		arr = arr.reshape([1, arr.shape[0]])
 		return arr
 	}
 
@@ -291,7 +291,7 @@ class Softmax {
 		var inverse = nj.dot(a, a.T)
 
 		var grad = nj.subtract(diag, inverse)
-		grad = nj.dot(grad, prev_grad)
+		grad = nj.dot(prev_grad, grad)
 
 		return [grad]
 	}
