@@ -227,6 +227,24 @@ class MAE {
 	}
 }
 
+class NLLLoss {
+	constructor(outDim, reduction=false) {
+		this.reduction = reduction
+		var onesArr = nj.ones([1, outDim])
+		var negArr = nj.multiply( onesArr, -1)
+		this.negaitveOnes = new onegrad.tensor(negArr, {requiresGrad: false})
+	}
+
+	compute(y, yHat) {
+		var diff = yHat.mul(this.negaitveOnes)
+		var loss = y.mul(diff)
+		if (this.reduction)
+			loss = loss.sum()
+
+		return loss
+	}
+}
+
 class CrossEntropyLoss {
 	constructor() {
 		this.one = onegrad.tensor([1], {requiresGrad: false});
@@ -250,5 +268,6 @@ module.exports = {
 	Module,
 	MSE,
 	MAE,
+	NLLLoss,
 	CrossEntropyLoss
 }
