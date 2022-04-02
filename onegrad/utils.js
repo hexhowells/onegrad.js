@@ -34,8 +34,19 @@ function diagFlat(x) {
     return nj.multiply(xTensor, id)
 }
 
+function _iterator(x, fn, ...args) {
+    var out = x.flatten().tolist()
+
+    for (let i = 0; i < out.length; i++) {
+        // + 0 removes negative sign from 0
+        out[i]= fn(out[i], ...args) + 0
+    }
+    return nj.array(out).reshape(x.shape)
+}
+
 module.exports = {
     OnehotEncoder,
     randomChoice,
-    diagFlat
+    diagFlat,
+    _iterator
     }

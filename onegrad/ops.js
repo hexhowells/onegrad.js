@@ -86,7 +86,7 @@ class Max {
 
 	backward(a, prev_grad) {
 		var maxVal = nj.max(a.selection)
-		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), maxVal, prev_grad.get(0))
+		var grad = utils._iterator(a.selection, (x, m, g) => ( (x == m) * g), maxVal, prev_grad.get(0))
 		return [grad]
 	}
 }
@@ -99,7 +99,7 @@ class Min {
 
 	backward(a, prev_grad) {
 		var minVal = nj.min(a.selection)
-		var grad = _iterator(a.selection, (x, m, g) => ( (x == m) * g), minVal, prev_grad.get(0))
+		var grad = utils._iterator(a.selection, (x, m, g) => ( (x == m) * g), minVal, prev_grad.get(0))
 		return [grad]
 	}
 }
@@ -177,12 +177,12 @@ class Identity {
 class ReLU {
 
 	forward(a) {
-		return _iterator(a, (a) => ((a > 0) * a))
+		return utils._iterator(a, (a) => ((a > 0) * a))
 	}
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = _iterator(input, (x, g) => ( (x >= 0) * g), prev_grad.get(0))
+		var grad = utils._iterator(input, (x, g) => ( (x >= 0) * g), prev_grad.get(0))
 		return [grad]
 	}
 }
@@ -190,12 +190,12 @@ class ReLU {
 class ReLU6 {
 
 	forward(a) {
-		return _iterator(a, (a) => (Math.min( ...[(a > 0) * a, 6] )))
+		return utils._iterator(a, (a) => (Math.min( ...[(a > 0) * a, 6] )))
 	}
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = _iterator(input, (x, g) => ( (x >= 0) * g), prev_grad.get(0))
+		var grad = utils._iterator(input, (x, g) => ( (x >= 0) * g), prev_grad.get(0))
 		return [grad]
 	}
 }
@@ -209,12 +209,12 @@ class LeakyReLU {
 	}
 
 	forward(a) {
-		return _iterator(a, this.func)
+		return utils._iterator(a, this.func)
 	}
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = _iterator(input, this.funcBackwards, prev_grad.get(0))
+		var grad = utils._iterator(input, this.funcBackwards, prev_grad.get(0))
 		return [grad]
 	}
 }
@@ -258,12 +258,12 @@ class SELU {
 	}
 
 	forward(a) {
-		return _iterator(a, this.func)
+		return utils._iterator(a, this.func)
 	}
 
 	backward(a, prev_grad) {
 		var input = a.selection
-		var grad = _iterator(input, this.funcBackwards, prev_grad.get(0))
+		var grad = utils._iterator(input, this.funcBackwards, prev_grad.get(0))
 
 		return [grad]
 	}
@@ -295,16 +295,6 @@ class Softmax {
 
 		return [grad]
 	}
-}
-
-function _iterator(x, fn, ...args) {
-    var out = x.flatten().tolist()
-
-    for (let i = 0; i < out.length; i++) {
-    	// + 0 removes negative sign from 0
-    	out[i]= fn(out[i], ...args) + 0
-    }
-    return nj.array(out).reshape(x.shape)
 }
 
 
