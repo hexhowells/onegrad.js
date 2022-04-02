@@ -2,6 +2,7 @@
 var fs = require('fs');
 var nj = require("numjs");
 var onegrad = require("./tensor.js")
+var utils = require("./utils")
 
 //
 // NN Layers
@@ -260,6 +261,24 @@ class CrossEntropyLoss {
 	}
 }
 
+// Utils
+class ClipGradients {
+	constructor(parameters, min=-5, max=5) {
+		this.params = parameters
+		this.min = min
+		this.max = max
+	}
+
+	clip() {
+		for (var param of this.params) {
+			var vals = param.grad
+			vals = utils._iterator(vals, (a) => (Math.min( ...[a, this.max] )))
+			vals = utils._iterator(vals, (a) => (Math.max( ...[a, this.min] )))
+			param.grad = vals
+		}
+	}
+}
+
 
 module.exports = {
 	Linear,
@@ -269,5 +288,6 @@ module.exports = {
 	MSE,
 	MAE,
 	NLLLoss,
-	CrossEntropyLoss
+	CrossEntropyLoss,
+	ClipGradients
 }
