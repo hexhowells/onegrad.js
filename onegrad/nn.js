@@ -44,8 +44,8 @@ class RNN {
 		if (this.useBias)
 			this.bias = onegrad.zeros([outDim, 1], {label:"RNN: bias"})
 
-		var w_arr = nj.random([outDim, inDim]).subtract(0.5)
-		var hw_arr = nj.random([outDim, outDim]).subtract(0.5)
+		var w_arr = nj.random([outDim, inDim]).multiply(0.01)//.subtract(0.5)
+		var hw_arr = nj.random([outDim, outDim]).multiply(0.01)//.subtract(0.5)
 
 		this.weight = onegrad.tensor(w_arr, {label:"RNN: weight"})
 		this.hiddenWeight = onegrad.tensor(hw_arr, {label:"RNN: hidden weight"})
@@ -62,7 +62,8 @@ class RNN {
 
 		x = onegrad.tanh(x)
 		this.prevOutput = x.identity()
-		//this.prevOutput.parents = []
+		this.prevOutput.label = "prev"
+		this.prevOutput.detach()
 		return x
 	}
 
@@ -130,7 +131,8 @@ class GRU {
 		y = onegrad.sigmoid(y)
 		
 		this.prev = y.identity()
-		//this.prev.parents = []
+		this.prev = "prev"
+		this.prev.detach()
 
 		return y
 	}
