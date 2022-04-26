@@ -368,6 +368,6 @@ The following is an example visualisation on a 2 layer feed forward network, the
 - ~~add ability to save and load model weights~~
 - ~~add visualisations for the DAG~~
 - ~~add more loss functions (CategoricalCrossEntropy, NLLLoss)~~
-- add more nn abstractions (LSTM, GRU, Conv2d)
+- add more nn abstractions (LSTM, ~~GRU~~, Conv2d)
 - add more examples
 - webpack source code
