@@ -2,7 +2,7 @@
   <img src="https://github.com/hexhowells/onegrad.js/blob/main/onegrad-logo.png" width=85%>
 </p>
 
-A lightweight deep learning framework in JavaScript. Designed to feel like PyTorch. Uses reverse-mode automatic differentiation and wraps around numjs for base matrix operations.
+A lightweight deep learning framework in JavaScript. Designed to feel like PyTorch. Uses reverse-mode automatic differentiation and wraps around [numjs](https://github.com/nicolaspanel/numjs) for base matrix operations.
 
 See ```Examples/``` to see what onegrad can do.
 
