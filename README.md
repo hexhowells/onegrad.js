@@ -370,4 +370,4 @@ The following is an example visualisation on a 2 layer feed forward network, the
 - ~~add more loss functions (CategoricalCrossEntropy, NLLLoss)~~
 - add more nn abstractions (LSTM, ~~GRU~~, Conv2d)
 - add more examples
-- bundle source code for in browser support
+- ~~bundle source code for in browser support~~
