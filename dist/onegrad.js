@@ -26444,6 +26444,13 @@ class Module {
 	    	params[i].selection = nj.array(array[i])
 	    }
 	}
+
+  loadFromJson(array) {
+    var params = this.parameters()
+    for (let i=0; i<params.length; i++) {
+      params[i].selection = nj.array(array[i])
+    }
+  }
 }
 
 //
