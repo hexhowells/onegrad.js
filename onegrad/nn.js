@@ -129,9 +129,9 @@ class GRU {
 		// output unit
 		var y = this.wy.dot(h)
 		y = onegrad.sigmoid(y)
-		
+
 		this.prev = y.identity()
-		this.prev = "prev"
+		this.prev.label = "prev"
 		this.prev.detach()
 
 		return y
@@ -142,9 +142,9 @@ class GRU {
 			this.wz,
 			this.uz,
 			this.wr,
-			this.uz,
+			this.ur,
 			this.wh,
-			this.uz,
+			this.uh,
 			this.wy
 		]
 	}
