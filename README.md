@@ -6,6 +6,8 @@ A lightweight deep learning framework in JavaScript. Designed to feel like PyTor
 
 See ```Examples/``` to see what onegrad can do.
 
+There's also a [web demo](https://hexhowells.com/onegrad/demos/mnist/) demonstrating entirely in the browser machine learning with Onegrad.
+
 ### Example
 ```javascript
 var onegrad = require("./../onegrad/tensor.js")
