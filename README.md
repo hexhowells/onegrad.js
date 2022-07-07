@@ -109,7 +109,7 @@ Onegrad supports most tensor operations required for deep learning
 > var a = onegrad.tensor([1, 2]);
 
 > a.max()
-tensor([2]
+tensor([2])
 
 > a.min()
 tensor([1])
