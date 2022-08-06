@@ -363,6 +363,7 @@ The following is an example visualisation on a 2 layer feed forward network, the
 </p>
 
 ### TODO
+- add ability to convert trained pytorch models to onegrad
 - ~~implement backprop for all operations~~
 - ~~add more optimiser functions~~
 - ~~add module class for defining models~~
